@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  tools:context=".IpSitesChangeMsisdn">
+  <androidx.appcompat.widget.Toolbar
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:background="@color/colorPrimary"
+    android:theme="@style/AppBarOverlay"
+    app:navigationIcon="?attr/homeAsUpIndicator"
+    tools:ignore="MissingConstraints" >
+
+    <ImageButton
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="end"
+      android:id="@+id/home"
+      android:textSize="12sp"
+      android:background="@null"
+      android:layout_alignParentEnd="true"
+      android:layout_alignParentRight="true"
+      android:src="@mipmap/home" />
+  </androidx.appcompat.widget.Toolbar>
+
+  <TextView
+    android:id="@+id/textView1"
+    android:layout_width="0dp"
+    android:layout_height="24dp"
+    android:layout_marginTop="20dp"
+    android:text="@string/ip_add_sites"
+    android:textAlignment="gravity"
+    android:gravity="center|center_vertical"
+    android:textSize="20sp"
+    android:textColor="@color/white"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
+
+
+  <ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="50dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginBottom="8dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+
+    <LinearLayout
+      android:id="@+id/linear"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      app:layout_constraintTop_toBottomOf="@+id/textView1"
+      tools:layout_editor_absoluteX="-35dp"
+      tools:layout_editor_absoluteY="0dp">
+
+
+      <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:textColorHint="@color/green"
+        app:counterEnabled="true"
+        app:counterMaxLength="10"
+        app:endIconMode="clear_text"
+        app:helperText="Required*"
+        app:helperTextTextColor="@color/red">
+
+        <com.google.android.material.textfield.TextInputEditText
+          android:id="@+id/search_msisdn"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:hint="MSISDN"
+          android:inputType="number"
+          android:maxLength="10" />
+      </com.google.android.material.textfield.TextInputLayout>
+
+      <Button
+        android:id="@+id/btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="24dp"
+        android:backgroundTint="@color/blue"
+        android:text="@string/search"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_msisdn" />
+
+      <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:textColorHint="@color/green"
+        app:endIconMode="clear_text">
+
+        <com.google.android.material.textfield.TextInputEditText
+          android:id="@+id/change_msisdn"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:hint="NEW MSISDN"
+          android:inputType="number"
+          android:maxLength="10" />
+      </com.google.android.material.textfield.TextInputLayout>
+
+      <Button
+        android:id="@+id/btn_changemsisdn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="24dp"
+        android:backgroundTint="@color/blue"
+        android:text="@string/change_msisdn"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/change_msisdn" />
+
+      <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_changemsisdn"
+        app:layout_constraintVertical_bias="0.533" />
+
+
+    </LinearLayout>
+
+
+  </ScrollView>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

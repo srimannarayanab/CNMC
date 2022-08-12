@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/constraint_layout"
+    tools:context=".Admin">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:theme="@style/AppBarOverlay"
+        app:navigationIcon="?attr/homeAsUpIndicator"
+        tools:ignore="MissingConstraints" >
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:id="@+id/home"
+            android:textSize="12sp"
+            android:background="@null"
+            android:layout_alignParentEnd="true"
+            android:src="@mipmap/home"
+            android:contentDescription="@string/descritption_home" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/administration"
+        android:textAlignment="gravity"
+        android:gravity="center|center_vertical"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+    android:id="@+id/button1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="24dp"
+    android:layout_marginTop="40dp"
+    android:layout_marginEnd="24dp"
+    android:textColor="@color/white"
+    android:backgroundTint="@color/blue"
+    android:text="@string/my_bts_users"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/textView1"/>
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="24dp"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/blue"
+        android:text="@string/resetpassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button1"/>
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="24dp"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/blue"
+        android:text="@string/deactivate_user"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button2"/>
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="24dp"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/blue"
+        android:text="@string/leftoutbts"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button3"/>
+
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="24dp"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/blue"
+        android:text="@string/mybts_unlink"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button4"/>
+
+    <Button
+        android:id="@+id/del_user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="24dp"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/blue"
+        android:text="@string/delete_user"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button5"/>
+
+    <Button
+        android:id="@+id/update_user_level"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="24dp"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/blue"
+        android:text="@string/update_user_level"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/del_user"/>
+
+    <Button
+        android:id="@+id/update_user_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="24dp"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/blue"
+        android:text="@string/update_user_type"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/update_user_level"/>
+
+    <Button
+        android:id="@+id/change_mybts_msisdn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="24dp"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/blue"
+        android:text="@string/change_mybts_msisdn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/update_user_type"/>
+
+    <Button
+        android:id="@+id/ipsite_admin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="24dp"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/blue"
+        android:text="@string/ipsite_admin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/change_mybts_msisdn"/>
+
+<!--    <Switch-->
+<!--        android:id="@+id/switch1"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="24dp"-->
+<!--        android:layout_marginTop="40dp"-->
+<!--        android:layout_marginEnd="24dp"-->
+<!--        android:checked="true"-->
+<!--        android:switchMinWidth="56dp"-->
+<!--        android:text="Notifications:"-->
+<!--        android:textOff="OFF"-->
+<!--        android:textOn="ON"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/button5" />-->
+
+<!--    <Switch-->
+<!--        android:id="@+id/switch2"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="24dp"-->
+<!--        android:layout_marginTop="40dp"-->
+<!--        android:layout_marginEnd="24dp"-->
+<!--        android:checked="true"-->
+<!--        android:switchMinWidth="56dp"-->
+<!--        android:text="SMS Notifications:"-->
+<!--        android:textOff="N"-->
+<!--        android:textOn="Y"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/switch1" />-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/home">
+    <fragment
+        android:id="@+id/home"
+        android:name="com.cmtsbsnl.cnmc.Home"
+        android:label="CNMC"
+        tools:layout="@layout/activity_home" />
+    <fragment
+        android:id="@+id/signal"
+        android:name="com.cmtsbsnl.cnmc.Signal"
+        android:label="Signal"
+        tools:layout="@layout/activity_signal" />
+    <fragment
+        android:id="@+id/userinfo"
+        android:name="com.cmtsbsnl.cnmc.UpdateUserProfile"
+        android:label="UserInfo"
+        tools:layout="@layout/activity_new_user_creation" />
+    <fragment
+        android:id="@+id/sync_btsmaster"
+        android:name="com.cmtsbsnl.cnmc.SyncBtsMaster"
+        android:label="Sync BTS Master"
+        tools:layout="@layout/activity_sync_bts_master" />
+    <fragment
+        android:id="@+id/logout"
+        android:name="com.cmtsbsnl.cnmc.Logout"
+        android:label="Logout"
+        tools:layout="@layout/activity_logout" />
+</navigation>

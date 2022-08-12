@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context=".UnlinkBts">
+	<androidx.appcompat.widget.Toolbar
+		android:id="@+id/toolbar"
+		android:layout_width="match_parent"
+		android:layout_height="?attr/actionBarSize"
+		android:background="@color/colorPrimary"
+		android:theme="@style/AppBarOverlay"
+		app:navigationIcon="?attr/homeAsUpIndicator"
+		tools:ignore="MissingConstraints" >
+
+		<ImageButton
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="end"
+			android:id="@+id/home"
+			android:textSize="12sp"
+			android:background="@null"
+			android:layout_alignParentEnd="true"
+			android:layout_alignParentRight="true"
+			android:src="@mipmap/home" />
+	</androidx.appcompat.widget.Toolbar>
+
+	<TextView
+		android:id="@+id/textView1"
+		android:layout_width="0dp"
+		android:layout_height="24dp"
+		android:layout_marginTop="20dp"
+		android:text="@string/mybts_unlink"
+		android:textAlignment="gravity"
+		android:gravity="center|center_vertical"
+		android:textSize="20sp"
+		android:textColor="@color/white"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent" />
+
+	<ScrollView
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:id="@+id/scrollView"
+		android:layout_marginTop="80dp"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/textView1" >
+	<LinearLayout android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical">
+
+	<EditText
+		android:id="@+id/search_msisdn"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="24dp"
+		android:layout_marginRight="24dp"
+		android:layout_marginTop="10dp"
+		android:background="@drawable/edittext_style"
+		android:hint="MSISDN"
+		android:padding="5dp"
+		android:inputType="number"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/textView1"/>
+
+	<Button
+		android:id="@+id/btn"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="10dp"
+		android:layout_marginLeft="24dp"
+		android:layout_marginRight="24dp"
+		android:textColor="@color/white"
+		android:backgroundTint="@color/blue"
+		android:text="@string/search"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/search_msisdn" />
+
+		<EditText
+			android:id="@+id/search_bts"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="24dp"
+			android:layout_marginRight="24dp"
+			android:layout_marginTop="10dp"
+			android:hint="Search Bts "
+			android:padding="5dp"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent"
+			app:layout_constraintTop_toBottomOf="@+id/btn"/>
+
+
+		<ListView
+			android:id="@+id/listView"
+			android:layout_width="match_parent"
+			android:layout_height="407dp"
+			android:layout_marginTop="?attr/actionBarSize" />
+
+	</LinearLayout>
+	</ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

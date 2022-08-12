@@ -1,0 +1,20 @@
+IndexIgnore * # prevent directory listing
+
+Order deny,allow
+Allow from *
+
+# ------------------------------------------
+# Rewrite so that php extentions are not shown
+RewriteEngine on
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.php -f
+RewriteRule ^(.*)$ $1.php
+
+## HTTPS to HTTP
+#RewriteCond %{HTTPS} on
+#RewriteRule (.*) http://%{HTTP_HOST}%{REQUEST_URI}
+
+# Authorization enable
+RewriteCond %{HTTP:Authorization} ^(.*)
+RewriteRule .* - [e=HTTP_AUTHORIZATION:%1]

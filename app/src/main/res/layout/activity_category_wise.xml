@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CategoryWise">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:theme="@style/AppBarOverlay"
+        app:navigationIcon="?attr/homeAsUpIndicator"
+        tools:ignore="MissingConstraints" >
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:id="@+id/home"
+            android:textSize="12sp"
+            android:background="@null"
+            android:layout_alignParentEnd="true"
+            android:src="@mipmap/home"
+            android:contentDescription="@string/descritption_home" />
+
+        <ImageButton
+            android:id="@+id/toXlsx"
+            android:layout_width="@dimen/toolbar_icons"
+            android:layout_height="@dimen/toolbar_icons"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="end"
+            android:src="@drawable/excel512"
+            android:textSize="12sp"
+            android:background="?selectableItemBackgroundBorderless"
+            android:scaleType="fitXY"
+            tools:layout_editor_absoluteX="339dp"
+            tools:layout_editor_absoluteY="16dp"
+            android:contentDescription="@string/description_xlsx" />
+        <ImageButton
+            android:id="@+id/shareby"
+            android:layout_width="@dimen/toolbar_icons"
+            android:layout_height="@dimen/toolbar_icons"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="end"
+            android:src="@drawable/ic_share"
+            android:textSize="12sp"
+            android:background="?selectableItemBackgroundBorderless"
+            android:scaleType="fitXY"
+            tools:layout_editor_absoluteX="339dp"
+            tools:layout_editor_absoluteY="16dp"
+            android:contentDescription="@string/descritption_shareBy" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/app_categorywise"
+        android:textAlignment="gravity"
+        android:layout_marginStart="?attr/actionBarSize"
+        android:gravity="start|center_vertical"
+        android:textSize="@dimen/toolbar_text"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refresh"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
+        app:layout_constraintTop_toBottomOf="@id/textView1">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:fillViewport="true"
+        android:layout_marginTop="?attr/actionBarSize"
+        tools:ignore="MissingConstraints"
+        android:orientation="vertical">
+
+        <HorizontalScrollView
+        android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TableLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/tbl_lyt"
+                android:stretchColumns="*"
+                app:layout_constraintBottom_toBottomOf="@+id/textView1">
+            </TableLayout>
+        </HorizontalScrollView>
+
+    </ScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

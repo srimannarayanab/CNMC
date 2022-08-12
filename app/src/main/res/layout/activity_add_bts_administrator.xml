@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".ReasonUpdate">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/colorPrimary"
+                android:theme="@style/AppBarOverlay"
+                app:navigationIcon="?attr/homeAsUpIndicator"
+                tools:ignore="MissingConstraints">
+
+                <ImageButton
+                    android:id="@+id/home"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="end"
+                    android:background="@null"
+                    android:src="@mipmap/home"
+                    android:textSize="12sp" />
+            </androidx.appcompat.widget.Toolbar>
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="0dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center|center_vertical"
+                android:text="@string/add_bts_admin"
+                android:textAlignment="gravity"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TableLayout
+                android:id="@+id/table_lyt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="80dp"
+                android:layout_marginEnd="24dp"
+                android:stretchColumns="*"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <EditText
+                android:id="@+id/msisdn1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:hint="MSISDN"
+                android:padding="10dp"
+                android:background="@drawable/edittext_style"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/table_lyt"
+                android:inputType="number" />
+
+            <EditText
+                android:id="@+id/msisdn2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:hint="MSISDN"
+                android:padding="10dp"
+                android:background="@drawable/edittext_style"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/msisdn1"
+                android:inputType="number" />
+
+            <EditText
+                android:id="@+id/msisdn3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:hint="MSISDN"
+                android:padding="10dp"
+                android:background="@drawable/edittext_style"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/msisdn2"
+                android:inputType="number" />
+
+            <Button
+                android:id="@+id/btn"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginEnd="100dp"
+                android:backgroundTint="@color/blue"
+                android:defaultFocusHighlightEnabled="true"
+                android:text="SUBMIT"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/msisdn3" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</RelativeLayout>

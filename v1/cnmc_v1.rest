@@ -1,0 +1,265 @@
+POST https://61.0.234.2/cnmc/v1/Userlogin
+Content-Type: application/json
+X-API_KEY:TmF0aXZlNWVjcmV0UEBzc3cwcmQy
+Authorization: Basic Y25tYzpjbm1jbW9iQDEyMzQ=
+
+{"username":"9449850915", "password":"9804578f2b115e4e61f7d94852d5e8ea","version_no":"3.4","firebase_id":""}
+
+###
+post https://61.0.234.2/cnmc/v1/getMyBtsUserList
+Authorization: FXQrPRpOOV87Q1u5k0jjOFSPHG3ri9wdI5rW8ghkMh4iTS1XQTaNqKXe2tSY3ogNA7ChyZ5tQPqVo2NpVNWEoSfUb9Y9YOal2UDNBvzD2OogNnrFWzknm6QHzfbg1C3XEiia39uAhlEjnqziu3sMKJ4j2dgxhg2B9VYc1lhdX9ZOJaYFYtHwB0O9UMpILRb640ZU7ozy6GFlLsPjWsSkdumaSCJfJ2OUbcP6A6lL89eVqdatiwLDpgHYNPHN2hen
+Content-Type: application/json
+
+{"msisdn":"9449850915","circle_id":"KA","ssa_id":"KABAN"}
+
+
+####
+post https://61.0.234.2/cnmc/v1/getTodayLogins
+Authorization: FXQrPRpOOV87Q1u5k0jjOFSPHG3ri9wdI5rW8ghkMh4iTS1XQTaNqKXe2tSY3ogNA7ChyZ5tQPqVo2NpVNWEoSfUb9Y9YOal2UDNBvzD2OogNnrFWzknm6QHzfbg1C3XEiia39uAhlEjnqziu3sMKJ4j2dgxhg2B9VYc1lhdX9ZOJaYFYtHwB0O9UMpILRb640ZU7ozy6GFlLsPjWsSkdumaSCJfJ2OUbcP6A6lL89eVqdatiwLDpgHYNPHN2hen
+Content-Type: application/json
+
+{"msisdn":"9449850915","circle_id":"KA","ssa_id":"KABAN"}
+
+###
+post https://61.0.234.2/cnmc/v1/getMyBtsConfiguredList.php
+Authorization: uoO2KY4Gq43xEpBsnz0ik2aoZAhPD723Y0gUOP5LBciU8oRu6DBXG0BssPBrk1IvH7zD9NwBgKZ9CvUUXz1M5Wr8e4t5GOIkFL9TdTLHYLGL6ofrzKGCwiuqlmrVc0nykGfooZn7oXgWYe3FBugl7A2yhcRHJKSSDIQStU5viyTfW1aMndAIZY4eQG6bjSdS2gcVbojUm0I5ujiHMgyZyvwg7QSysY4Xedp2FBRkusnKWGsDtSUBm0MOI4M0exyW
+Content-Type: application/json
+
+{"msisdn":"9449850915","mybts_msisdn":"9449850915"}
+
+
+### 
+post https://61.0.234.2/cnmc/v1/CircleWiseAvailability
+Authorization: zPJU4iJg5oIG2ygf5uc18ZitumYhVHNS4shlt5QYKL2DgSzxKXXDpl7ip9SHdmTBVlVJK3eN9QMdnP4YGNeSKBQh0IHudP5puS5SS2kZWPnPDmxjU789lZPya0a6U3CxYCJpbrrnyrMfBTty4rVbey5OOzf9ns9oYDx84pb71PoC89g9EAoR9fzV7B26H55v5M62ZjOQXhNkqcG4M4vJHkPFjg50u6zMPGUl0V9lHLaAZEnVM1CiiI4Czh3XC5bO
+Content-Type: application/x-www-form-urlencoded
+
+msisdn=9449850915
+
+###
+post https://61.0.234.2/cnmc/v1/SsaWiseAvailability
+Authorization: zPJU4iJg5oIG2ygf5uc18ZitumYhVHNS4shlt5QYKL2DgSzxKXXDpl7ip9SHdmTBVlVJK3eN9QMdnP4YGNeSKBQh0IHudP5puS5SS2kZWPnPDmxjU789lZPya0a6U3CxYCJpbrrnyrMfBTty4rVbey5OOzf9ns9oYDx84pb71PoC89g9EAoR9fzV7B26H55v5M62ZjOQXhNkqcG4M4vJHkPFjg50u6zMPGUl0V9lHLaAZEnVM1CiiI4Czh3XC5bO
+Content-Type: application/json
+
+{"msisdn":"9449850915","circle_id":"KA"}
+
+
+###
+post https://61.0.234.2/cnmc/v1/CircleWiseCategoryDown
+Authorization: RBf143W9n3Ou1xaC3wwfYuL7CaNzRG5fyqKHrCm2rAqEkbibrUR1HHlsXhZwzTKVqA6jRcBky0llYlVgnrJXJtTilMNlFipnEXcdowbweWhQ8t1iLutcOda8dOMwSNTOAnFDWyDG2sPzoOo9ZMTwwdxoIQx0rAh7cI0ZMAmeg0IIU2JIxHmHovAJIFrQnAtoZtzdxOKwGHwe9D83vPaaQxJWDGUYfGB7szOn73lr8kJkVGHa8LjQzeZFVDC5ysju
+Content-Type: application/json
+
+{"msisdn":"9449850915"}
+
+###
+post https://61.0.234.2/cnmc/v1/SSAWiseCategoryDown
+Authorization: kt1JFwgfeH8Z4DIj2wwsvjMMvTRiRUEkAaIT2yB4r649wBD5pmm9yNvuKrkI1eWnQ3wCZKTMBuRvPQOovI3JDdfQve8yLz7rYQzajsUM94CV1yHQ8UjhZalLsK8baBYAtY7BbDLk9E2AMSQv3b1GAWPtCl7ueDe2Z9NiR5hpErl4xSaq4VTjT7uTUk5OTX9zFzauc5AoWfeAWZRpLe1oY2GxHFqowOYvAE5sMqbKWjznR8Z1xRfyHql55s7oA2fK
+Content-Type: application/json
+
+{"msisdn":"9449850915","circle_id":"KA"}
+
+###
+post https://61.0.234.2/cnmc/v1/CategoryWiseDownDetails
+Authorization: kt1JFwgfeH8Z4DIj2wwsvjMMvTRiRUEkAaIT2yB4r649wBD5pmm9yNvuKrkI1eWnQ3wCZKTMBuRvPQOovI3JDdfQve8yLz7rYQzajsUM94CV1yHQ8UjhZalLsK8baBYAtY7BbDLk9E2AMSQv3b1GAWPtCl7ueDe2Z9NiR5hpErl4xSaq4VTjT7uTUk5OTX9zFzauc5AoWfeAWZRpLe1oY2GxHFqowOYvAE5sMqbKWjznR8Z1xRfyHql55s7oA2fK
+Content-Type: application/json
+
+{"msisdn":"9449850915","circle":"KA","ssaname":"KABAJ","criteria":"CRITICAL"}
+
+
+###
+post https://61.0.234.2/cnmc/v1/CircleWiseTechDown
+Authorization: A3J6wbi85zF8PcIgKDG9G8d9b3YHwYA6870kXJ0yqHsWYW73PlEXICci2uSfgERN2nLs4GMw9nQOkoeCW6sLTVxNbLYhaA6U4zGObPNLSo79wLaEZ7uq7c6Jd1ABwcz0sAGJ7OkGppdsgtIr5ZZG4xUJcteAaMR5Dv4R8xv2HV1LDcgSxyKxJmM2C8Xy2X3EfzsJWaxAeXrsSvKzZVIvTDqEoOPDOIkipyYZQoDgSxVm7KgJpmoc69naDT6WTeJO
+Content-Type: application/json
+
+{"msisdn":"9449850915"}
+
+###
+post https://61.0.234.2/cnmc/v1/SSAWiseTechDown
+Authorization: d8rmKEe2edujaR8ullpz4ACzKc9nji3Ro2vEGWmYpvG8beNuoHGJTEgSNWLaYIeyn7RfsMtY7eqTJy5KwAQ2Yyf34eo1in4jY5HyIBkpvNEg8wAIFRH593C8U9Ww9moSkwyG8st8DRB0OucVklmJAHcyOLPwMrM9VULmteOCuD0WvhEB8oWWGzXlNrwUed6J3KgG5wmPMsNfmmk7BAHluEmaP7yJaXkGuXJrHhyGBIgJoc64SdLRLElIFf8Oq0jB
+Content-Type: application/json
+
+{"msisdn":"9449850915","circle_id":"KA"}
+
+###
+post https://61.0.234.2/cnmc/v1/TechWiseDownDetails
+Authorization: Kex7JrMTXAVZYS10se2Zk6vHHaLwzQWq1ThJW8p9ZJwQdNjbmYuH6cH8LuGHWOFZ3gkdNS4IHATx3mQmR8S9DBYBVC2y48iSXvoVxqr9sx6slIvaaloTDGg383N98NtTSYr3BDgNRw1UnsnsBJcirLp0B2egeDsSeg4oOCIfLOGHaitwRvf2gjCqvGMT52tFMhfLpPwTtXaMei1zmAH3wKHbBHvnA52NKi7KxCTJg6gCuddqncKSGIjLSLwMBcyG
+Content-Type: application/json
+
+{"msisdn":"9449850915","circle_id":"KA","ssa_id":"Total","bts_type":"G"}
+
+###
+post https://61.0.234.2/cnmc/v1/CircleWiseDurationDown
+Authorization: dfKK1nAxUGygvSuPRKniiazdXmevNLJk6OKj2XptrJhwtf3YFpBAc3zN5JgM2ry8LyluBQr0hvHPqckUY1TJUDpPFgv75j1h8hCTejcW62TD1Bwszx3q5WsjMjleHEX1Sx2YIEU3Qsj96mi0bJ7ccmvXq30B43gQeqzm7QL0zUOCWRziY2jfNTCNa9rPDrFPWoSdIHfNFMo6UfNU0r1sU2fxopEvvO4lN0G6bDcAa0BPoeF9H42lOA1vONq4kOU2
+Content-Type: application/json
+
+
+###
+post https://61.0.234.2/cnmc/v1/SSAWiseDurationDown
+Authorization: dfKK1nAxUGygvSuPRKniiazdXmevNLJk6OKj2XptrJhwtf3YFpBAc3zN5JgM2ry8LyluBQr0hvHPqckUY1TJUDpPFgv75j1h8hCTejcW62TD1Bwszx3q5WsjMjleHEX1Sx2YIEU3Qsj96mi0bJ7ccmvXq30B43gQeqzm7QL0zUOCWRziY2jfNTCNa9rPDrFPWoSdIHfNFMo6UfNU0r1sU2fxopEvvO4lN0G6bDcAa0BPoeF9H42lOA1vONq4kOU2
+Content-Type: application/json
+
+{"msisdn":"9449850915","circle_id":"KA"}
+
+###
+post https://61.0.234.2/cnmc/v1/DurationWiseDownDetails
+Authorization: gzhtS2zRBKXZ18e4BQAPQT7UasupuO79knMuYNR8CU51jLVOVJAsKCuTvI3K2J9KaBUZhCf0ZzqXP6mDhBS5M6eWSBwSvw72iRfhZo5LgxwJ9EVsiioyVcDBDEOmOF0gBOzG6L6HPIUZ2F6GdzpmA7y2FfUubxDk2jl2FXCmtVAdxd9hl1HFilbESHD9dcfJIyqJQovIyJEaCc7gaUpv4guWtpN2SLHdM8lNNUAzD9lN1wstBla0HgVhr8DKkrMU
+Content-Type: application/json
+
+{"msisdn":"9449850915","circle_id":"KA","ssa_id":"Total", "criteria":1}
+
+###
+post https://61.0.234.2/cnmc/v1/CircleWiseSiteTypeDown
+Authorization: dfKK1nAxUGygvSuPRKniiazdXmevNLJk6OKj2XptrJhwtf3YFpBAc3zN5JgM2ry8LyluBQr0hvHPqckUY1TJUDpPFgv75j1h8hCTejcW62TD1Bwszx3q5WsjMjleHEX1Sx2YIEU3Qsj96mi0bJ7ccmvXq30B43gQeqzm7QL0zUOCWRziY2jfNTCNa9rPDrFPWoSdIHfNFMo6UfNU0r1sU2fxopEvvO4lN0G6bDcAa0BPoeF9H42lOA1vONq4kOU2
+Content-Type: application/json
+
+{"msisdn":"9449850915"}
+
+###
+post https://61.0.234.2/cnmc/v1/SSAWiseSiteTypeDown
+Authorization: PnfYxb6NUTTUonSQKoiqZTM1kqeRdJvCFZa0w8ql2Ovd2CWtdXL2sowU5R10epUvIB7sKn6FCwSyhMV3lAk7jiODYAUZFKin75oLWniC1K53zbRMVuVTvdA6l8tGa8m7eAVyWWUcLyljkaOvV4EvQP4FUgcpxDcT4fkwPYN03CUvcDpRuJM0ElfOk3k1nZ4eViAvpt7kuJ4HirFXetjmOuMs0RpX7hN1sKIahnWDv1PMAabjYDRZj3keRx81kit3
+Content-Type: application/json
+
+{"msisdn":"9449850915","circle_id":"KA"}
+
+###
+post https://61.0.234.2/cnmc/v1/SiteTypeWiseDownDetails
+Authorization: 2zSLwd0wG3Pa8tUK76MLNT2UMXMvppTGNHruoWPhJRp7867lmg30UBv0gZTqjzw2Afbx2cr91kBTq30QMyuy4ky4ZlCMfKUVBWt88mItnxHh3WjTWIeE98bFV4UsWN27nVnpyK0ooeqkdAqQ4FyWpK2o2MNKOu1P2rVNTFFwbDcHTEyjgkKt4VN5vP0wp5U1HHqiFIzloLun05kgYpr7AiXBrA2GTJPJUqlSPXcaoOGBBVQSaxDaSmY3whwpW9Fs
+Content-Type: application/json
+
+{"msisdn":"9449850915","circle":"KA","ssaname":"KABAJ","criteria":"BS"}
+
+
+###
+post https://61.0.234.2/cnmc/v1/CircleWiseOutSourcedDown
+Authorization: lF7hW7YjRTL3GhMRjIKXnQaw0Q3cRR6cE0JJXg2x5xI2rxJSwJWW1yUgV3nxqm3JRF2P9NQPdVVb5hIOMqrP5KzIWW2w620qYwSHPPl7hQX7ZsSQQo6ubjYU5vmTKZTNYlhqGL0WJ5cNtuWOccmCaR0OHrGeUa5wVjlKScta05m4fW0C1U3TCFsX7FEVFsLKbqcPk17Z7JMlCr7v3naZN3Je7MsFxF81qWIdHwdRWpUFMGOr4rZ6knidLQnJWU6s
+Content-Type: application/json
+
+{"msisdn":"9449850915"}
+
+###
+post https://61.0.234.2/cnmc/v1/SSAWiseOutSourcedDown
+Authorization: xJnagxUMXm0G8MIKc9uzUAFKVIp6jcuPHLbZ1j4qMG9VAdHgNtV5SB0fe3ph8GHraKfq3JwixQJmfbxhwVFlo4OV0f8dbpQjGqxhw1JQ5tuwEUuaJD1KTLk2yBh3xMhMDN79QBSV8Xe23WLEElP39vNybgSe8zuzr3A0cwyHVJxmA9zgN45s9qNNli1JxHuCRiaWC4kTL7XkhctEC46r0gI6tOiKGtnhsKbJ0WsEeVAT8KlMkscWdSGtgfRkA77E
+Content-Type: application/json
+
+{"msisdn":"9449850915","circle_id":"KA"}
+
+###
+post https://61.0.234.2/cnmc/v1/OutSourcedDownDetails
+Authorization: RE7IdJSrF77oXdejsLHHculSUXXdb9oqyLYRYyrxeHh0xIfNokDj0xB8eGut2pWWS5AF83XPEysvh9XB8rcBwd8LXtRWebszBmb9YzpRP6f6BRR9JjxVw25j74kQKEWs0gXSDzg7wmVD9UJkP7mearwd7wKi9egSlrT3PeGfk256L7Qq5sqF84QX7LcRoxs7Db4XWXWWxNNrdddhxMo18QXAljKWFF4dhnc4XHM2OpRhr7tsdLGXEpFAn5rM2T2E
+Content-Type: application/json
+
+{"msisdn":"9449850915","circle_id":"KA","ssa_id":"KABAJ"}
+
+
+###
+post https://61.0.234.2/cnmc/v1/getCircleUserList
+Authorization: IzZiSZJfZK1DoXqquLmn9MNmHXiRpwHPY81IHKrSjDBMFGUZnD7HX6JdnhCjgcilbQxl7ALpUnQtHnUSqHf6VuCBvOxTYbQVgjNg0yhQqVqD0B3YrYuy1wVn6bOgacc4Vg8xHEHCWEPx9IVfqhlwTDnddO34sBN5oBg4TUGjd7eK3iEXUyWt1gfcc2aDLfBOuMm68vH5r0qJ4rMdBFsrFk6jwDg8D5BlLLbKDP6uIgPkc61kZTCUsa5BuBka7UCx
+Content-Type: application/json
+
+{"msisdn":"9449850915","circle_id":"KA"}
+
+
+###
+post https://61.0.234.2/cnmc/v1/getLastOMCRProcess
+Authorization: 2fmA7e8BLnKPKH9GCUSv5Bdo1x8rIcrzcRJGj51ToFoTGzTLX6DAOe42r2lcVvFqlyP087qc63kjsc2SFeSH7BTsPWoAwB4zSMwLdAmErjPj8uhKgMBShleQBy1hIxxFnKEBvIatTJ7VnpqKxkNP3q6VR3wwxKAzNAEhOIDMflrZ7cQqFy43xC8nlb1F8WEMmDUivTz0vIeMrkyhFnJejoP3xhHhONoxA55nlcVPUbQSRnnS0T6smbure8NazZ0I
+Content-Type: application/json
+
+{"msisdn":"9449850915","circle_id":"KA"}
+
+
+###
+post https://61.0.234.2/cnmc/v1/getUserDetails
+Authorization: unqHtExmIPnymbSMpvf4pp0fl1Cm9AHen8OERUFm9ziOL1c6xgv9Bds8jdoLSwkNvMdTdX7LB6HLx4wIMG4gBkE8PBSH54ii1EvNbP66sWTvcyyMH82DxYwyszPhOVBB0JgSgOFYNlWpic0rApQMITc8Rkronwd0ghdcxPyklEIYzfgB80TWqyiIrjVBCVUGlPUbo20vdZxAMaLRQq6jwHGytkYVCDFCVAYcqbgr5dWQ6lK0Gg9dmQ8Lsya0mCIv
+Content-Type: application/json
+
+{"msisdn":"9449850915","username":"9449832124","circle_id":"KA"}
+
+###
+post https://61.0.234.2/cnmc/v1/UserResetPassword
+Authorization: WqEdL9MJRVuUSIU1T58Ts0WFu71J223Fi5rgrPcLyGMXujEBvoQVnnENSZitLBmnUCkAIE0KBiS8iyORXxNQmS7wnuJPOAsO5ziqFyQ0qigQPOpdU7MHbAtDi5nMoQEezRoK9QiyYZpoT2vqa6K4Rb3lZ4HFIjx01kuVzixD8QRUzDN2s5OiU8yQEv1T5mJp5xrHiQkZItI3Z3Y7YmNcl9ORZAPt2h1LTP0eGrKRWJAFgfhQOXp2BgiPj227rwOQ
+Content-Type: application/json
+
+{"msisdn":"9449850915","username":"9449832124"}
+
+
+###
+post https://61.0.234.2/cnmc/v1/userLevelUpdate
+Authorization: 6Jiv02SJxxW7G2XDnUfMaJx2q871TmiYRbXSIAqQmvJAOEDlAqMKpZqgRHdRg57G18rzA5D3l8NIV2fv5eAIqKyNq9gujcPvdf5abPJIhxAZwW7TbO46L5RbVio78UTeQVj23SGa01XQptuNIIzvyOUaRLf5I5mggefTW3ng35VGgoSTtaluzQPIRHU4hQ17D1DGhPArqgvKCkJkErRK2c23O2pUH4ptTadhPUPEpm4SpVuLdeenuH4hzhM9EOUI
+Content-Type: application/json
+
+{"msisdn":"9449850915","username":"9449832124","lvl":"Level-1","lvl2":"9449850915","lvl3":"9449852440"}
+
+
+###
+post https://61.0.234.2/cnmc/v1/AddBts
+Authorization: WPRNesrWpr2J3h7nP9HNQu0UGPtsgyXWATOZIIrYaNUK4eaFTpButlBzqxwhraC0P7E9jcbpS9HHiKuLqws6QDThin10kGTXIMoANwLyCaef0iFPBFT1goHwd8CpfnAZLx9xwlopFPwV0BWuuys311eZvl4QMfHQgNj5oNIXpekNoAHuYLl3TRmLb9fC2woqOl2W2eEJhteSeg7uElUTn8bXNywtDnlD4C7v3JJBV657Yk4Z6pCeqjiqyDLaWOMn
+Content-Type: application/json
+
+{"msisdn":"9449850915","bts_ids":["1291450"]}
+
+###
+post https://61.0.234.2/cnmc/v1/GetBtsDownCause
+Authorization: 9hcgPZ0V0kECoSt036QmCY0Quq6Ia3shSDKXSn9HoespHMxE0VdBk224o9HYjgR85adVS7hHKchG2CJVEjdwzmo0lPJvZtlJQ8H1RFir9Mr1HDpuZAUpl1zuTQlSmXLNvwY5sW3SBuQDa4nVciM0utPvMyC4yYvTy988uBpHeElIVMOnnaDeQWeAgXZUiO7yihyY1Oh0uZg1hKCAVSNhIZCevMlLpoBFQqPnsHIT2naGdX5mLV1cqcuRpAGz8dc2
+Content-Type: application/json
+
+{"msisdn":"9449850915","bts_id":"1291536"}
+
+###
+post https://61.0.234.2/cnmc/v1/UpdateBtsDownReason
+Authorization: 9hcgPZ0V0kECoSt036QmCY0Quq6Ia3shSDKXSn9HoespHMxE0VdBk224o9HYjgR85adVS7hHKchG2CJVEjdwzmo0lPJvZtlJQ8H1RFir9Mr1HDpuZAUpl1zuTQlSmXLNvwY5sW3SBuQDa4nVciM0utPvMyC4yYvTy988uBpHeElIVMOnnaDeQWeAgXZUiO7yihyY1Oh0uZg1hKCAVSNhIZCevMlLpoBFQqPnsHIT2naGdX5mLV1cqcuRpAGz8dc2
+Content-Type: application/json
+
+{"msisdn":"9449850915","log_id":"1291536","bts_down_cause":"34"}
+
+###
+post https://61.0.234.2/cnmc/v1/GetLeftOutBts
+Authorization: W9HNkMTNCKp8Pj1Zbdp1ICGlabDvE6CcI3PZTSCzF1zxJRi1MRWO6qfafXyLNmPvI0JU1Eztvq73UcqsW273SEHvQ4rD7OybOdzAYefTOoteAjjtqZxxRLjdCkFhgah1DjHntKKXf0EEXAUbWidVNKRKwnQzulA8aTkOkRzsjLVsqHa75YxYVMlTbk3ypW1dzX6oL2h7ZDEkZBpiBKVtex0o9B5Zw2iGkOQZH6kPGjJwkYG49AYlvJr48XHiOiCe
+Content-Type: application/json
+
+{"msisdn":"9449850915","circle_id":"KA"}
+
+###
+post https://61.0.234.2/cnmc/v1/getUserDesignations.php
+Authorization: Vtx3ZvqbTYry69DUwoklEMDyca1ApuVQovnCvM8Kf7mfvBKFkxQ3JaFL0SuL0j006rjJRF02pLBvEbk1LjJUv2IFgAY9G3yDJU95zwBzntWWw6qfeUoepGFZuz0VM2YrfAPr2wb8eskMvFsMPmwajB9lFBqzfUkuWaYEdWJwI4JaCvbKusMhult6NfkxBIinSyarbQO7EBmCPw31yBk6vq62Ij8w1xD2zDDtMUHe206RZVRCjsO8zbp5Ohp6QGWH
+Content-Type: application/json
+
+{"msisdn":"9449850915"}
+
+###
+post https://61.0.234.2/cnmc/v1/getCircles.php
+Authorization: ctWGYqfgOHcPKUm0tNQwdmQofslc3Be8OfteLUtI2Z6Ph9qWpOQMMq3eHkYsmBZblxqNedAtBpHuzCEMZ9jWEKtGcUodPdqzvSJxQmbf6CQn0KeK7Q7p6BP3Mbga9Cpyu8iIGp1X36pShLA6SVU5m4mb4OzvjaBjNrRfwYts8lY8tyHhdvS4nMaMTXcw7hZ8ZclXEqUbki6DJuOp0kPdRUwBqvF5k9A1ITD60PZky3Q2vTEbNWrIfb4d7H1Voz9g
+Content-Type: application/json
+
+{"msisdn":"9449850915"}
+
+###
+post https://61.0.234.2/cnmc/v1/getUserDesignations.php
+Content-Type: application/json
+
+{"auth":"89edcb1b8a38c43b15932338e5946958"}
+
+###
+post https://61.0.234.2/cnmc/v1/getCircles.php
+Content-Type: application/json
+
+{"auth":"89edcb1b8a38c43b15932338e5946958"}
+
+###
+post https://61.0.234.2/cnmc/v1/getCircleSSAs.php
+Content-Type: application/json
+
+{"auth":"89edcb1b8a38c43b15932338e5946958","circle":"KARNATAKA"}
+
+
+###
+post https://61.0.234.2/cnmc/v1/UpdateUserProfile.php
+Authorization:zQ5o7sxrrAAtDWhFSraUeK2UpWqCauYWPnmoYU7xL9qVs9VMCIcBkFXfWnKjMZpnrFOmeSR5uuG2XCAIiYxALpSnrwSssAjWkXtgOp8R3fNRr0n9b0RouuX6d4QZ6Cesx1LhRiYkd2AEBFAFeMGciPq7F6G5IfSV9YXgI4acmF5M4DJDltstL7OAqN9dZfzKZhP9BnPjFuTzBpmej91fgFRF3nfPVu7uWyr2JY8N3J4pWzQPDovWm22KEr5QnwJR
+Content-Type: application/json
+
+{"msisdn":"9449850915","name":"srimannarayana","desg":"SDE","email":"srimannarayana@bsnl.co.in","hrms":"200304524","circle":"KARNATAKA","username":"9449850915","password":"9804578f2b115e4e61f7d94852d5e8ea","lvl":"co/circle","lvl2":"","lvl2":""}
+
+
+### 
+post https://61.0.234.2/cnmc/v1/addNewUser.php
+Content-Type: application/json
+
+{"name":"Sriman","desg":"SDE","hrms":"200304524","email":"srimannarayana@bsnl.co.in","msisdn":"9482215950","password":"asdasdasd","circle":"KARNATAKA","ssaname":"BANGALORE","access_key":"asdasdasdas","user_type":"Bsnl","auth":"89edcb1b8a38c43b15932338e5946958"}

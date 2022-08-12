@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  package="com.cmtsbsnl.cnmc">
+
+  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+  <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+  <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+  <uses-permission android:name="android.permission.READ_PHONE_NUMBERS" />
+  <uses-permission android:name="android.permission.INTERNET" />
+  <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" /> <!-- <uses-permission android:name="android.permission.CALL_PHONE" /> -->
+  <!-- <uses-permission android:name="android.permission.CAMERA" /> -->
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+  <application
+    android:allowBackup="false"
+    android:fullBackupContent="false"
+    android:icon="@mipmap/ic_launcher"
+    android:label="@string/app_name"
+    android:requestLegacyExternalStorage="true"
+    android:roundIcon="@mipmap/ic_launcher"
+    android:supportsRtl="true"
+    android:theme="@style/AppTheme"
+    android:usesCleartextTraffic="true">
+    <activity
+      android:name=".IpSitesChangeMsisdn"
+      android:exported="false" />
+    <activity
+      android:name=".IpSitesViewSites"
+      android:exported="false" />
+    <activity
+      android:name=".IpSitesAddSites"
+      android:exported="false" />
+    <activity
+      android:name=".IpSitesAddUsers"
+      android:exported="false" />
+    <activity
+      android:name=".SyncBtsMaster"
+      android:exported="false"
+      tools:ignore="Instantiatable" />
+    <activity
+      android:name=".SearchByBts"
+      android:exported="false" />
+    <activity
+      android:name=".ChangeMyBtsMsisdn"
+      android:exported="false" />
+    <activity
+      android:name=".IpSitesAdministration"
+      android:exported="false" />
+    <activity
+      android:name=".TodayLogins"
+      android:exported="false"
+      android:label="@string/title_activity_today_logins"
+      android:theme="@style/AppTheme.NoActionBar" />
+    <activity android:name=".SesssionLogout" />
+    <activity android:name=".ChangeUserType" />
+    <activity android:name=".OmcrProcess" />
+    <activity android:name=".OutsourcedSiteDetails" />
+    <activity android:name=".SsaWiseOutsourced" />
+    <activity android:name=".Outsourced" /> <!-- <activity android:name=".HomeOutsource" /> -->
+    <activity android:name=".NavigationalOutsource" />
+    <activity android:name=".UserLevelUpdate" />
+    <activity android:name=".CircleUserList" />
+    <activity android:name=".DeleteUser" />
+    <activity android:name=".CircleAdministrator" />
+    <activity android:name=".TechWiseDetails" />
+    <activity android:name=".TechWiseSsa" />
+    <activity android:name=".TechWise" />
+    <activity android:name=".SmsEnabledDisabled" />
+    <activity android:name=".UnlinkBts" />
+    <activity android:name=".AddBtsAdministrator" />
+    <activity android:name=".Deactivate_User" />
+    <activity android:name=".Mybts_Leftout" />
+    <activity android:name=".ResetPassword" />
+    <activity android:name=".update_user_level" />
+    <activity android:name=".LockedSitesDetails" />
+    <activity android:name=".SsaLockedSites" />
+    <activity android:name=".ReasonUpdate" />
+    <activity android:name=".MyBtsUserList" />
+    <activity android:name=".MyBtsDown" />
+    <activity android:name=".MyBtsUsers" />
+    <activity android:name=".Admin" />
+    <activity android:name=".DeleteBtsDatabase" />
+    <activity
+      android:name=".Home"
+      tools:ignore="Instantiatable" />
+    <activity android:name=".AddBtsDatabase" />
+    <activity android:name=".ViewBts" />
+    <activity android:name=".DeleteBts" />
+    <activity android:name=".AddBts" />
+    <activity android:name=".SsaAvailability" />
+    <activity android:name=".MyBts" />
+    <activity android:name=".SsaWiseTraffic" />
+    <activity android:name=".CircleWiseTraffic" />
+    <activity android:name=".CircleAvailability" />
+    <activity android:name=".Availability" />
+    <activity android:name=".CircleMttr" />
+    <activity android:name=".SsaMttr" />
+    <activity android:name=".ForgetPassword" />
+    <activity android:name=".CommerciallyLocked" />
+    <activity android:name=".CategoryWiseDetails" />
+    <activity android:name=".LeasedOutDetails" />
+    <activity android:name=".LeasedOutSsa" />
+    <activity android:name=".LeasedOut" />
+    <activity android:name=".SsaWiseAvailability" />
+    <activity android:name=".CircleWiseAvailability" />
+    <activity
+      android:name=".Logout"
+      tools:ignore="Instantiatable" />
+    <activity android:name=".PartialDownDetails" />
+    <activity android:name=".SiteTypeDetails" />
+    <activity android:name=".DurationWise_details" />
+    <activity android:name=".Login" />
+    <activity android:name=".PartialDownSsa" />
+    <activity android:name=".PartialDown" />
+    <activity android:name=".DurationWise" />
+    <activity android:name=".SitetypeSsa" />
+    <activity android:name=".DurationWiseSsa" />
+    <activity android:name=".SitetypeWise" />
+    <activity android:name=".NewUserCreation" />
+    <activity android:name=".CategoryWiseSsa" />
+    <activity android:name=".CategoryWise" />
+    <activity
+      android:name=".UpdateUserProfile"
+      tools:ignore="Instantiatable" />
+    <activity
+      android:name=".Signal"
+      tools:ignore="Instantiatable" />
+    <activity
+      android:name=".AppInfo"
+      tools:ignore="Instantiatable" />
+    <activity android:name=".Traffic" />
+    <activity
+      android:name=".ExternalAlarms"
+      tools:ignore="Instantiatable" />
+    <activity android:name=".BtsDown" />
+    <activity android:name=".Navigational" />
+    <activity android:name=".Authentication_Old" />
+    <activity android:name=".UpdateFaultReason" />
+    <activity android:name=".NotificationsEnabledDisabled" />
+    <activity
+      android:name=".MainActivity"
+      android:exported="true">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+
+        <category android:name="android.intent.category.LAUNCHER" />
+      </intent-filter>
+      <intent-filter>
+        <action android:name="android.intent.action.SEARCH" />
+      </intent-filter>
+    </activity>
+  </application>
+
+</manifest>

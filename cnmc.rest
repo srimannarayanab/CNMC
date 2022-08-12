@@ -1,0 +1,99 @@
+### 
+
+POST http://61.0.234.2/cnmc/ssawise_tech_down.php http/1.1
+Content-Type: application/json
+
+{"circle_id":"HR"}
+
+###
+
+POST http://61.0.234.2/cnmc/ssawise_outsourced_down.php http/1.1
+Content-Type: application/json
+
+{"circle_id":"KA"}
+
+### 
+
+POST http://61.0.234.2/cnmc/outsourced_sites_details http/1.1
+Content-Type: application/json
+
+{"circle_id":"KA","ssa_id":"KABAJ"}
+
+###
+
+POST http://61.0.234.2/cnmc/getOmcrProcess http/1.1
+Content-Type: application/json
+
+{"circle_id":"KA"}
+
+### 
+
+post http://61.0.234.2/cnmc/getCircles.php http/1.1
+
+###
+post http://61.0.234.2/cnmc/getCircleSSAs.php
+Content-Type: application/json
+
+{"circle":"KARNATAKA"}
+
+### 
+post http://61.0.234.2/cnmc/ssawise_category_down.php
+Content-Type: application/x-www-form-urlencoded
+
+circle_id=UW
+
+### 
+
+post http://61.0.234.2/cnmc/circlewise_tech_down.php
+
+###
+post http://61.0.234.2/cnmc/circlewise_category_down.php
+
+###
+post http://61.0.234.2/cnmc/circlewise_duration_down.php
+
+###
+post http://61.0.234.2/cnmc/circlewise_sitetype_down.php
+
+### 
+post http://61.0.234.2/cnmc/circlewise_outsourced_down.php
+
+###
+post http://61.0.234.2/cnmc/circlewise_partial_down.php
+
+###
+post http://61.0.234.2/cnmc/circlewise_leasedout.php
+
+### 
+post http://61.0.234.2/cnmc/catwise_availability.php
+Content-Type: application/x-www-form-urlencoded
+
+ym=202105
+
+###
+
+post http://61.0.234.2/cnmc/updateFaultReason.php
+Content-Type: application/json
+
+{"log_id":1288295,"bts_down_cause":2, "added_by":949850915}
+
+
+### 
+post http://61.0.234.2/cnmc/userLogin.php
+Content-Type: application/x-www-form-urlencoded
+
+username=9449850195&password=9804578f2b115e4e61f7d94852d5e8ea&version=8&firebase_id=
+
+### 
+post http://61.0.234.2/cnmc/view_bts
+Content-Type: application/x-www-form-urlencoded
+
+msisdn=9418316263
+
+
+### 
+post http://61.0.234.2/cnmc/v1/addNewUser.php
+Content-Type: application/x-www-form-urlencoded
+
+name=Sriman&desg=SDE&hrms=200304524&email=srimannarayana@bsnl.co.in&msisdn=9482215950&password=asdasdasd&circle=KARNATAKA&ssaname=BANGALORE&access_key=asdasdasdas&user_type=Bsnl
+

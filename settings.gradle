@@ -1,0 +1,7 @@
+rootProject.name='CNMC'
+include ':app'
+dependencyResolutionManagement {
+    repositories {
+        google()
+    }
+}

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "217621409758",
+    "firebase_url": "https://cnmcapp-f8546.firebaseio.com",
+    "project_id": "cnmcapp-f8546",
+    "storage_bucket": "cnmcapp-f8546.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:217621409758:android:bc5adba483d758814f374f",
+        "android_client_info": {
+          "package_name": "com.cmtsbsnl.cnmc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "217621409758-0gn5hkhnjscr2v1muijodk2r181q8qo4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8IAEbEuMutgagqwlSttIQ7MZ3gkOEMTQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "217621409758-0gn5hkhnjscr2v1muijodk2r181q8qo4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

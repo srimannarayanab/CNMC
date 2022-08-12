@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DeleteUser">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:theme="@style/AppBarOverlay"
+        app:navigationIcon="?attr/homeAsUpIndicator"
+        tools:ignore="MissingConstraints" >
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:id="@+id/home"
+            android:textSize="12sp"
+            android:background="@null"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:src="@mipmap/home" />
+    </androidx.appcompat.widget.Toolbar>
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/delete_user"
+        android:textAlignment="gravity"
+        android:gravity="left|center_vertical"
+        android:layout_marginLeft="?attr/actionBarSize"
+        android:textSize="@dimen/toolbar_text"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView"
+        android:layout_marginTop="80dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView1" >
+        <LinearLayout android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <EditText
+                android:id="@+id/search_msisdn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edittext_style"
+                android:hint="MSISDN"
+                android:padding="5dp"
+                android:inputType="number"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView1"/>
+
+            <Button
+                android:id="@+id/btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/blue"
+                android:text="@string/search"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/search_msisdn" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/tbl_lyt"
+                android:visibility="invisible"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:stretchColumns="*"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn">
+                <TableRow>
+                    <TextView android:text="Msisdn" />
+                    <TextView android:id="@+id/msisdn" />
+                </TableRow>
+                <TableRow>
+                    <TextView android:text="Name" />
+                    <TextView android:id="@+id/name" />
+                </TableRow>
+                <TableRow>
+                    <TextView android:text="Desg" />
+                    <TextView android:id="@+id/desg" />
+                </TableRow>
+                <TableRow>
+                    <TextView android:text="Hrms No" />
+                    <TextView android:id="@+id/hrms_no" />
+                </TableRow>
+                <TableRow>
+                    <TextView android:text="Circle" />
+                    <TextView android:id="@+id/circle" />
+                </TableRow>
+                <TableRow>
+                    <TextView android:text="Email" />
+                    <TextView android:id="@+id/email" />
+                </TableRow>
+                <TableRow>
+                    <TextView android:text="User Type" />
+                    <TextView android:id="@+id/user_type" />
+                </TableRow>
+                <TableRow>
+                    <TextView android:text="User Status" />
+                    <TextView android:id="@+id/user_status" />
+                </TableRow>
+                <TableRow>
+                    <TextView android:text="Last Login" />
+                    <TextView android:id="@+id/last_login" />
+                </TableRow>
+                <TableRow>
+                    <TextView android:text="Level" />
+                    <TextView android:id="@+id/lvl" />
+                </TableRow>
+                <TableRow>
+                    <TextView android:text="Level-2" />
+                    <TextView android:id="@+id/lvl2" />
+                </TableRow>
+                <TableRow>
+                    <TextView android:text="Level-3" />
+                    <TextView android:id="@+id/lvl3" />
+                </TableRow>
+            </TableLayout>
+
+            <Button
+                android:id="@+id/btn_submit1"
+                android:visibility="invisible"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/delete_user"
+                android:layout_marginRight="24dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tbl_lyt" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
