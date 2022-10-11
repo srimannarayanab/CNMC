@@ -41,7 +41,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
 public class CircleAvailability extends SessionActivity {
-//    private String strUrl="http://"+ Constants.SERVER_IP+"/cnmc/catwise_availability.php";
     private TableLayout tl;
     private String ym;
     private MyTask mytask ;
