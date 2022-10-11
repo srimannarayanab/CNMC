@@ -386,7 +386,7 @@ public class CircleWiseAvailability extends SessionActivity {
             tr2.addView(tv2_3);
 
             TextView tv2_4 = new TextView(activity);
-            tv2_4.setText(String.valueOf(total_down));
+            tv2_4.setText(String.valueOf(total_cnt));
             tr2.addView(tv2_4);
 
             TextView tv2_5 = new TextView(activity);
