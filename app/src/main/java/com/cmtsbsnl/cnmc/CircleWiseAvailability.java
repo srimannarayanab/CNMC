@@ -24,6 +24,11 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -40,11 +45,6 @@ import java.security.GeneralSecurityException;
 import java.text.DecimalFormat;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
-
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 public class CircleWiseAvailability extends SessionActivity {
     private TableLayout tl;
@@ -386,7 +386,7 @@ public class CircleWiseAvailability extends SessionActivity {
             tr2.addView(tv2_3);
 
             TextView tv2_4 = new TextView(activity);
-            tv2_4.setText(String.valueOf(total_down));
+            tv2_4.setText(String.valueOf(total_cnt));
             tr2.addView(tv2_4);
 
             TextView tv2_5 = new TextView(activity);
