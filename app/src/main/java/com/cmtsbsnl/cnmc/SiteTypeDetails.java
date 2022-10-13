@@ -87,7 +87,7 @@ public class SiteTypeDetails extends AppCompatActivity {
         criteria = intent.getStringExtra("criteria");
         String htxt = ssa_id;
         if(ssa_id.equals("%")){
-            htxt = "";
+            htxt = "All SSAs";
         }
 
         Uri.Builder uri_builder = new Uri.Builder()
