@@ -76,7 +76,6 @@ public class CategoryWiseSsa extends SessionActivity {
             e.printStackTrace();
         }
 
-
         ImageButton homeBtn = toolbar.findViewById(R.id.home);
         homeBtn.setOnClickListener((View v)->
                 startActivity(new Intent(this, Navigational.class))

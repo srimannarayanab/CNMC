@@ -83,9 +83,9 @@ public class DurationWiseSsa extends SessionActivity {
 
         ImageButton homeBtn = toolbar.findViewById(R.id.home);
         homeBtn.setOnClickListener(v -> startActivity(new Intent(this, Navigational.class)));
-        
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
-        Manifest.permission.READ_EXTERNAL_STORAGE}, PackageManager.PERMISSION_GRANTED);
+
+      ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
+          Manifest.permission.READ_EXTERNAL_STORAGE}, PackageManager.PERMISSION_GRANTED);
 
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
@@ -130,7 +130,7 @@ public class DurationWiseSsa extends SessionActivity {
     private void buttonCreateExcel(String url){
         try {
             String flts = new getDurationWiseSSAFaults(this).execute(url).get();
-//            System.out.println(flts);
+            System.out.println(flts);
             HSSFWorkbook workbook = new HSSFWorkbook();
             HSSFSheet sheet = workbook.createSheet("DurationWise");
 

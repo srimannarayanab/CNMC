@@ -147,7 +147,9 @@ public class Deactivate_User extends SessionActivity {
 
                     tl.setVisibility(View.VISIBLE);
 
-                    if(obj1.getString("status").equals("B")){
+                    if(obj1.getString("status").equals("B")
+                        || obj1.getString("status").equals("N")
+                        || obj1.getString("status").equals("D")){
 //                        System.out.println(obj1.getString("status"));
                         btn_submit2.setVisibility(View.VISIBLE);
                     } else {

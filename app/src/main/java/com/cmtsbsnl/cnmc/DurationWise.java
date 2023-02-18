@@ -162,33 +162,34 @@ public class DurationWise extends SessionActivity {
                 drow.createCell(6).setCellValue(Integer.parseInt(obj.getString("Total")));
             }
 
-            if(isExternalStorageWritable()) {
-                File filepath = new File(Environment.getExternalStorageDirectory()+"/Download/DurationWise_Faults.xls");
-                try {
-                    FileOutputStream fileOutputStream = new FileOutputStream(filepath);
-                    workbook.write(fileOutputStream);
-                    fileOutputStream.flush();
-                    fileOutputStream.close();
-                    MimeTypeMap map = MimeTypeMap.getSingleton();
-                    String ext = MimeTypeMap.getFileExtensionFromUrl(filepath.getName());
-                    String type = map.getMimeTypeFromExtension(ext);
+          if(isExternalStorageWritable()) {
+            File filepath = new File(Environment.getExternalStorageDirectory()+"/Download/DurationWise_Faults.xls");
+            try {
+              FileOutputStream fileOutputStream = new FileOutputStream(filepath);
+              workbook.write(fileOutputStream);
+              fileOutputStream.flush();
+              fileOutputStream.close();
+
+              MimeTypeMap map = MimeTypeMap.getSingleton();
+              String ext = MimeTypeMap.getFileExtensionFromUrl(filepath.getName());
+              String type = map.getMimeTypeFromExtension(ext);
 //                    System.out.println(type);
-                    if (type == null)
-                        type = "*/*";
-                    Intent excel_open_intent = new Intent(Intent.ACTION_VIEW);
-                    Uri data = Uri.fromFile(filepath);
-                    excel_open_intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                    excel_open_intent.setDataAndType(data, type);
-                    startActivity(excel_open_intent);
-                    Toast toast = Toast.makeText(getApplicationContext(), "Excel file generated sucessfully in downloads folder", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-                    toast.show();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else{
-                Toast.makeText(getApplicationContext(), "Sorry not permitted",Toast.LENGTH_SHORT).show();
+              if (type == null)
+                type = "*/*";
+              Intent excel_open_intent = new Intent(Intent.ACTION_VIEW);
+              Uri data = Uri.fromFile(filepath);
+              excel_open_intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+              excel_open_intent.setDataAndType(data, type);
+              startActivity(excel_open_intent);
+              Toast toast = Toast.makeText(getApplicationContext(), "Excel file generated sucessfully in downloads folder", Toast.LENGTH_SHORT);
+              toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+              toast.show();
+            } catch (Exception e) {
+              e.printStackTrace();
             }
+          } else{
+            Toast.makeText(getApplicationContext(), "Sorry not permitted",Toast.LENGTH_SHORT).show();
+          }
 
         } catch (JSONException | InterruptedException | ExecutionException e) {
             e.printStackTrace();

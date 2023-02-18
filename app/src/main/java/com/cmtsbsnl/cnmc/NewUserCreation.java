@@ -128,7 +128,7 @@ public class NewUserCreation extends AppCompatActivity {
 
 
 //        user Type spinner/Adapter
-        List<String> user_types = new ArrayList<>(Arrays.asList("Bsnl", "OutSourcing"));
+        List<String> user_types = new ArrayList<>(Arrays.asList("Bsnl", "OutSourcing", "IpVendor"));
         user_types.add(0,"Select User-Type");
         ArrayAdapter<String> usertype_adapter = new ArrayAdapter<>(NewUserCreation.this, R.layout.support_simple_spinner_dropdown_item, user_types);
         sp_usertype.setAdapter(usertype_adapter);
