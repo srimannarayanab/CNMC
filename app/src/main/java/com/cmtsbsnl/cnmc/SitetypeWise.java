@@ -69,7 +69,7 @@ public class SitetypeWise extends SessionActivity {
             e.printStackTrace();
         }
 
-        sharedPreferences = getApplicationContext().getSharedPreferences("CnmcPref",MODE_PRIVATE);
+//        sharedPreferences = getApplicationContext().getSharedPreferences("CnmcPref",MODE_PRIVATE);
         circle_id = sharedPreferences.getString("circle_id",null);
         user_privs = sharedPreferences.getString("user_privs", null);
         tv_header = findViewById(R.id.textView1);
@@ -132,6 +132,7 @@ public class SitetypeWise extends SessionActivity {
         try {
             String flts = new getSiteTypeSsaWiseFaults(this).execute(url).get();
 
+
 //            Writing to Data to XLS file
             HSSFWorkbook workbook = new HSSFWorkbook();
             HSSFSheet sheet = workbook.createSheet("SiteTypeFaults");
@@ -176,7 +177,6 @@ public class SitetypeWise extends SessionActivity {
                     MimeTypeMap map = MimeTypeMap.getSingleton();
                     String ext = MimeTypeMap.getFileExtensionFromUrl(filepath.getName());
                     String type = map.getMimeTypeFromExtension(ext);
-//                    System.out.println(type);
                     if (type == null)
                         type = "*/*";
                     Intent excel_open_intent = new Intent(Intent.ACTION_VIEW);
@@ -275,7 +275,7 @@ public class SitetypeWise extends SessionActivity {
                 JSONObject url_obj = new JSONObject(s);
                 if(!url_obj.getString("result").equals("true")){
                     Toast.makeText(activity, url_obj.getString("error"), Toast.LENGTH_SHORT).show();
-                    activity.startActivity(new Intent(activity, SesssionLogout.class));
+//                    activity.startActivity(new Intent(activity, SesssionLogout.class));
                 }
                 JSONArray u_obj =new JSONArray(url_obj.getString("data"));
                 JSONArray obj = new JSONArray();
