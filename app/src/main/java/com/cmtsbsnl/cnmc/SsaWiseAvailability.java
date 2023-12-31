@@ -143,10 +143,10 @@ public class SsaWiseAvailability extends SessionActivity {
 //            System.out.println(flts);
 //            Writing to Data to XLS file
             HSSFWorkbook workbook = new HSSFWorkbook();
-            HSSFSheet sheet = workbook.createSheet("PartialDown");
+            HSSFSheet sheet = workbook.createSheet("SSAWise-Faults");
 
             HSSFRow row = sheet.createRow(0);
-            row.createCell(0).setCellValue("CircleID");
+            row.createCell(0).setCellValue("SSAID");
             row.createCell(1).setCellValue("Down");
             row.createCell(2).setCellValue("Partial");
             row.createCell(3).setCellValue("Count");
@@ -312,6 +312,16 @@ public class SsaWiseAvailability extends SessionActivity {
                     total_partial +=Integer.parseInt(p_down);
                     total_cnt +=Integer.parseInt(total_sites_cnt);
                     btn.setText(ssa_id);
+                    btn.setOnClickListener(new View.OnClickListener() {
+                      @Override
+                      public void onClick(View v) {
+                        Intent intent = new Intent(activity,SdcaWiseFaults.class);
+                        intent.putExtra("circle_id", activity.circle_id);
+                        intent.putExtra("ssa_id", ssa_id);
+                        activity.startActivity(intent);
+
+                      }
+                    });
                     tr.addView(btn);
                     Button btn1 = new Button(activity);
                     btn1.setText(down);

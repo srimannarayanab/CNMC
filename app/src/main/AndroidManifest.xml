@@ -27,6 +27,11 @@
     android:theme="@style/AppTheme"
     android:usesCleartextTraffic="true">
     <activity
+      android:name=".SdcaWiseFaults"
+      android:exported="false"
+      android:label="@string/title_activity_sdca_wise_faults"
+      android:theme="@style/AppTheme.NoActionBar" />
+    <activity
       android:name=".NavigationalIPVendor"
       android:exported="false" />
     <activity

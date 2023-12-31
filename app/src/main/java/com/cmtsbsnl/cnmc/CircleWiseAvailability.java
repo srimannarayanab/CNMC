@@ -24,11 +24,6 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -45,6 +40,11 @@ import java.security.GeneralSecurityException;
 import java.text.DecimalFormat;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
+
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 public class CircleWiseAvailability extends SessionActivity {
     private TableLayout tl;
@@ -108,16 +108,7 @@ public class CircleWiseAvailability extends SessionActivity {
             new MyTask(this).execute(uri_builder.toString());
             swipeRefreshLayout.setRefreshing(false);
         });
-       /* swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                tl.removeAllViews();
-                new MyTask().execute();
-                swipeRefreshLayout.setRefreshing(false);
-            }
-        });*/
 
-//        Create an uri builder to build the url
 
 //        To Xlsx
         toXlsx = findViewById(R.id.toXlsx);
@@ -131,21 +122,7 @@ public class CircleWiseAvailability extends SessionActivity {
             Bitmap bitmap = rootView.getDrawingCache();
             ScreeShare screeShare = new ScreeShare(getApplicationContext());
             screeShare.saveBitmap(bitmap, "CircleWise At a Glance "+Constants.getCurrentTime());
-
         });
-//        shareBy.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-////                Toast.makeText(SsaWiseAvailability.this, "Share it is clicked",Toast.LENGTH_SHORT).show();
-////                Bitmap bitmap = takeScreenshot();
-//                View rootView = getWindow().getDecorView().getRootView();
-//                rootView.setDrawingCacheEnabled(true);
-//                Bitmap bitmap = rootView.getDrawingCache();
-//                ScreeShare screeShare = new ScreeShare(getApplicationContext());
-//                screeShare.saveBitmap(bitmap, "CircleWise At a Glance");
-//            }
-//        });
-
     }
 
     private Boolean isExternalStorageWritable(){

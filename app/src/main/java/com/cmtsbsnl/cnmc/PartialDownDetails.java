@@ -55,7 +55,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 public class PartialDownDetails extends AppCompatActivity {
-    private String circle_id, ssa_id, criteria;
+    private String circle_id, ssa_id, criteria, sdca;
     private TableLayout tl;
     private SharedPreferences sharedPreferences;
     private HashMap<String, String> operators;
@@ -82,6 +82,7 @@ public class PartialDownDetails extends AppCompatActivity {
         circle_id = intent.getStringExtra("circle_id");
         ssa_id = intent.getStringExtra("ssa_id");
         criteria = intent.getStringExtra("criteria");
+        sdca = intent.getStringExtra("sdca");
 
         TextView header = findViewById(R.id.textView1);
         String htxt = ssa_id;
@@ -233,6 +234,7 @@ public class PartialDownDetails extends AppCompatActivity {
                 post_obj.put("circle_id", activity.circle_id);
                 post_obj.put("ssa_id",activity.ssa_id);
                 post_obj.put("criteria",activity.criteria);
+                post_obj.put("sdca",activity.sdca);
                 post_obj.put("msisdn", activity.sharedPreferences.getString("msisdn",""));
 
                 OutputStream os = conn.getOutputStream();
@@ -277,6 +279,7 @@ public class PartialDownDetails extends AppCompatActivity {
                     for (int i = 0; i < arr.length(); i++) {
                         final JSONObject obj = new JSONObject(arr.getString(i));
                         String str = Constants.getBtsDownInfo(obj, activity.operators);
+                        System.out.println(str);
                         LinearLayout ll = new LinearLayout(activity);
                         CardView card = new CardView(activity);
                         card.setMaxCardElevation(5);
@@ -356,6 +359,7 @@ public class PartialDownDetails extends AppCompatActivity {
                 post_obj.put("circle_id", activity.circle_id);
                 post_obj.put("ssa_id",activity.ssa_id);
                 post_obj.put("criteria",activity.criteria);
+                post_obj.put("sdca",activity.sdca);
                 post_obj.put("msisdn", activity.sharedPreferences.getString("msisdn",""));
 
                 OutputStream os = conn.getOutputStream();

@@ -80,6 +80,8 @@ public class AddBtsDatabase extends SessionActivity {
                 JSONObject post_obj = new JSONObject();
                 post_obj.put("msisdn", activity.sharedPreferences.getString("msisdn",""));
                 post_obj.put("bts_ids", activity.btsAddList);
+//              System.out.println(post_obj.get("msisdn"));
+//              System.out.println(post_obj.get("bts_ids"));
                 return new MyHttpClient(activity).getUrlConnection(URLDecoder.decode(params[0], "UTF-8"),
                         post_obj.toString());
             } catch (Exception e) {
@@ -92,7 +94,7 @@ public class AddBtsDatabase extends SessionActivity {
         protected void onPostExecute(String s) {
             AddBtsDatabase activity = activityReference.get();
             pd.dismiss();
-            System.out.println(s);
+//            System.out.println(s);
             try {
                 JSONObject url_obj = new JSONObject(s);
                 if(!url_obj.getString("result").equals("true")){

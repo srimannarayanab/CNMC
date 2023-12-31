@@ -199,7 +199,7 @@ public class AddBts extends SessionActivity {
                     String bts_name = obj2.getString("bts_name");
                     String bts_type = obj2.getString("bts_type");
                     String bts_id = obj2.getString("bts_id");
-                    btsList.put(bts_name, bts_id);
+                    btsList.put(bts_name+'-'+bts_type, bts_id);
 //                    bts.add(bts_name);
                     activity.dataModels.add(new DataModel(bts_name,  bts_type,false));
                 }
@@ -220,11 +220,14 @@ public class AddBts extends SessionActivity {
                     dataModel.checked = !dataModel.checked;
                     activity.customAdapter.notifyDataSetChanged();
                     String bts_name = dataModel.bts_name;
+                    String bts_type = dataModel.bts_type;
+                    String bts = bts_name +'-'+ bts_type;
+
                     boolean checked = dataModel.checked;
                     if(checked){
-                        checkedItems.add(bts_name);
+                        checkedItems.add(bts);
                     } else{
-                        checkedItems.remove(bts_name);
+                        checkedItems.remove(bts);
                     }
 //                        System.out.println(checked);
                 });

@@ -22,12 +22,6 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import com.google.gson.Gson;
 
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -54,8 +48,14 @@ import java.util.concurrent.ExecutionException;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 public class SiteTypeDetails extends AppCompatActivity {
-    private String circle_id, ssa_id, criteria;
+    private String circle_id, ssa_id, criteria, sdca;
     private TableLayout tl;
     private HashMap<String, String> operators;
     private SharedPreferences sharedPreferences;
@@ -85,6 +85,8 @@ public class SiteTypeDetails extends AppCompatActivity {
         circle_id = intent.getStringExtra("circle_id");
         ssa_id = intent.getStringExtra("ssa_id");
         criteria = intent.getStringExtra("criteria");
+        sdca = intent.getStringExtra("sdca");
+
         String htxt = ssa_id;
         if(ssa_id.equals("%")){
             htxt = "All SSAs";
@@ -237,6 +239,7 @@ public class SiteTypeDetails extends AppCompatActivity {
                 post_obj.put("circle_id", activity.circle_id);
                 post_obj.put("ssa_id",activity.ssa_id);
                 post_obj.put("criteria",activity.criteria);
+                post_obj.put("sdca", activity.sdca);
                 post_obj.put("msisdn", activity.sharedPreferences.getString("msisdn",""));
 
                 OutputStream os = conn.getOutputStream();

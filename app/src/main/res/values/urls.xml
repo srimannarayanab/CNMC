@@ -65,4 +65,5 @@
 	<string name="ulr_change_mybts_msisdn">changeMyBtsMsisdn</string>
     <string name="ulr_get_bts_details">getBtsDetails</string>
     <string name="ulr_get_bts_info">getBtsInfo</string>
+  <string name="url_sdcawise_faults">SDCAWiseFaults</string>
 </resources>
