@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="wrap_content"
+  android:layout_height="wrap_content"
+  android:orientation="vertical"
+  android:padding="16dp">
+
+  <!-- Header -->
+  <TextView
+    android:id="@+id/dialog_header"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Locked Sites Reason Update"
+    android:textAppearance="?attr/textAppearanceHeadline6"
+    android:paddingBottom="8dp"
+    android:gravity="center"/>
+
+  <!-- TextBox 1 -->
+  <TextView
+    android:id="@+id/textbox_locked_site_name"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:hint="BTS Name:"/>
+
+  <!-- TextBox 2 -->
+  <TextView
+    android:id="@+id/textbox_locked_ssaname"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:hint="Ssa Name :"/>
+
+  <!-- TextBox 3 -->
+  <TextView
+    android:id="@+id/textbox_locked_make"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:hint="Make:"/>
+
+  <!-- TextBox 4 -->
+  <TextView
+    android:id="@+id/textbox_locked_date"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:hint="Lock Date: "/>
+
+  <!-- Spinner -->
+  <Spinner
+    android:id="@+id/spinner_reasons"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"/>
+
+</LinearLayout>

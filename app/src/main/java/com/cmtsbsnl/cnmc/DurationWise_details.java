@@ -3,6 +3,7 @@ package com.cmtsbsnl.cnmc;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -14,6 +15,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
+import android.provider.MediaStore;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,6 +61,7 @@ public class DurationWise_details extends SessionActivity {
     private SharedPreferences sharedPreferences;
     private TableLayout tl;
     private HashMap<String, String> operators;
+    private static JSONArray flts_Array;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,8 +143,8 @@ public class DurationWise_details extends SessionActivity {
 
     private void buttonCreateExcel(String url) {
         try {
-            String flts = new getFaultsDetails(this).execute(url).get();
-            JSONObject flts_obj = new JSONObject(flts);
+//            String flts = new getFaultsDetails(this).execute(url).get();
+//            JSONObject flts_obj = new JSONObject(flts);
 //            System.out.println(flts);
 //            Writing to Data to XLS file
             HSSFWorkbook workbook = new HSSFWorkbook();
@@ -161,16 +164,17 @@ public class DurationWise_details extends SessionActivity {
             row.createCell(10).setCellValue("fault_update_date");
 
 
-            JSONObject url_obj = new JSONObject(flts_obj.getString("data"));
-            if(!url_obj.getString("result").equals("true")){
-                Toast.makeText(this, url_obj.getString("error"), Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(this, SesssionLogout.class));
-                finish();
-            }
-            JSONArray arr = new JSONArray(url_obj.getString("data"));
-            for(int i=0; i<arr.length(); i++){
+//            JSONObject url_obj = new JSONObject(flts);
+//            if(!url_obj.getString("result").equals("true")){
+//                Toast.makeText(this, url_obj.getString("error"), Toast.LENGTH_SHORT).show();
+//                startActivity(new Intent(this, SesssionLogout.class));
+//                finish();
+//            }
+//            JSONArray arr = new JSONArray(url_obj.getString("data"));
+//            flts_Array = arr;
+            for(int i=0; i<flts_Array.length(); i++){
                 HSSFRow drow = sheet.createRow(i+1);
-                JSONObject obj = arr.getJSONObject(i);
+                JSONObject obj = flts_Array.getJSONObject(i);
                 drow.createCell(0).setCellValue(obj.getString("bts_name"));
                 drow.createCell(1).setCellValue(obj.getString("ssa_name"));
                 drow.createCell(2).setCellValue(obj.getString("vendor_name"));
@@ -186,21 +190,49 @@ public class DurationWise_details extends SessionActivity {
 
             }
 
-            if(isExternalStorageWritable()) {
-                File filepath = new File(Environment.getExternalStorageDirectory()+"/Download/Faults.xls");
+//            if(isExternalStorageWritable()) {
+//                File filepath = new File(Environment.getExternalStorageDirectory()+"/Download/Faults.xls");
+//                try {
+//                    FileOutputStream fileOutputStream = new FileOutputStream(filepath);
+//                    workbook.write(fileOutputStream);
+//                    fileOutputStream.flush();
+//                    fileOutputStream.close();
+//                    Toast.makeText(getApplicationContext(), "Excel file generated sucessfully in downloads folder", Toast.LENGTH_SHORT).show();
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            } else{
+//                Toast.makeText(getApplicationContext(), "Sorry not permitted",Toast.LENGTH_SHORT).show();
+//            }
+
+            if (isExternalStorageWritable()) {
+                ContentValues values = new ContentValues();
+                values.put(MediaStore.MediaColumns.DISPLAY_NAME, "Faults.xls");
+                values.put(MediaStore.MediaColumns.MIME_TYPE, "application/vnd.ms-excel");
+                values.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS);
+
+                Uri uri = getContentResolver().insert(MediaStore.Files.getContentUri("external"), values);
                 try {
-                    FileOutputStream fileOutputStream = new FileOutputStream(filepath);
-                    workbook.write(fileOutputStream);
-                    fileOutputStream.flush();
-                    fileOutputStream.close();
-                    Toast.makeText(getApplicationContext(), "Excel file generated sucessfully in downloads folder", Toast.LENGTH_SHORT).show();
+                    OutputStream outputStream = getContentResolver().openOutputStream(uri);
+                    workbook.write(outputStream);
+                    outputStream.flush();
+                    outputStream.close();
+                    Toast.makeText(getApplicationContext(), "Excel file generated successfully in Downloads folder", Toast.LENGTH_SHORT).show();
+
+                    // Open the file
+                    Intent openIntent = new Intent(Intent.ACTION_VIEW);
+                    openIntent.setDataAndType(uri, "application/vnd.ms-excel");
+                    openIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    startActivity(Intent.createChooser(openIntent, "Open with"));
                 } catch (Exception e) {
-                    e.printStackTrace();
+//                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), "Failed to generate Excel file", Toast.LENGTH_SHORT).show();
                 }
-            } else{
-                Toast.makeText(getApplicationContext(), "Sorry not permitted",Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "External storage is not writable", Toast.LENGTH_SHORT).show();
             }
-        } catch (JSONException | InterruptedException | ExecutionException e) {
+
+        } catch (JSONException  e) {
             e.printStackTrace();
         }
 
@@ -271,7 +303,7 @@ public class DurationWise_details extends SessionActivity {
         protected void onPostExecute(String s) {
             DurationWise_details activity = activityReference.get();
             pd.dismiss();
-//            System.out.println(s);
+            System.out.println(s);
             CardView.LayoutParams param = new CardView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
             param.setMargins(10,10,10,10);
@@ -283,6 +315,7 @@ public class DurationWise_details extends SessionActivity {
                     activity.finish();
                 }
                 JSONArray arr = new JSONArray(url_obj.getString("data"));
+                flts_Array = arr;
                 if(arr.length()>0) {
                     for (int i = 0; i < arr.length(); i++) {
                         final JSONObject obj = new JSONObject(arr.getString(i));
@@ -365,10 +398,11 @@ public class DurationWise_details extends SessionActivity {
                 conn.setDoInput(true);
                 conn.setDoOutput(true);
                 JSONObject post_obj = new JSONObject();
-                post_obj.put("circle", activity.circle_id);
-                post_obj.put("ssaname",activity.ssa_id);
+                post_obj.put("circle_id", activity.circle_id);
+                post_obj.put("ssa_id",activity.ssa_id);
                 post_obj.put("criteria",activity.criteria);
                 post_obj.put("msisdn", activity.sharedPreferences.getString("msisdn",""));
+//                System.out.println(post_obj.toString());
 
                 OutputStream os = conn.getOutputStream();
                 os.write(post_obj.toString().getBytes());

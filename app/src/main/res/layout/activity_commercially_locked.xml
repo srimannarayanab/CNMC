@@ -26,19 +26,7 @@
             android:layout_alignParentRight="true"
             android:src="@mipmap/home" />
 
-        <ImageButton
-            android:id="@+id/toXlsx"
-            android:layout_width="@dimen/toolbar_icons"
-            android:layout_height="@dimen/toolbar_icons"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_gravity="end"
-            android:src="@drawable/excel512"
-            android:textSize="12sp"
-            android:background="?selectableItemBackgroundBorderless"
-            android:scaleType="fitXY"
-            tools:layout_editor_absoluteX="339dp"
-            tools:layout_editor_absoluteY="16dp" />
+
         <ImageButton
             android:id="@+id/shareby"
             android:layout_width="@dimen/toolbar_icons"
@@ -52,6 +40,19 @@
             android:scaleType="fitXY"
             tools:layout_editor_absoluteX="339dp"
             tools:layout_editor_absoluteY="16dp" />
+        <ImageButton
+          android:id="@+id/toXlsx"
+          android:layout_width="@dimen/toolbar_icons"
+          android:layout_height="@dimen/toolbar_icons"
+          android:layout_alignParentEnd="true"
+          android:layout_alignParentRight="true"
+          android:layout_gravity="end"
+          android:src="@drawable/excel512"
+          android:textSize="12sp"
+          android:background="?selectableItemBackgroundBorderless"
+          android:scaleType="fitXY"
+          tools:layout_editor_absoluteX="339dp"
+          tools:layout_editor_absoluteY="16dp" />
     </androidx.appcompat.widget.Toolbar>
 
     <TextView

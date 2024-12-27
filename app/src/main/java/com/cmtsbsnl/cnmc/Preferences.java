@@ -19,13 +19,12 @@ public class Preferences {
 
     public SharedPreferences getEncryptedSharedPreferences() throws GeneralSecurityException, IOException {
         String masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC);
-        SharedPreferences sharedPreferences = EncryptedSharedPreferences.create(
-                "CnmcPref",
-                masterKeyAlias,
-                context,
-                EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-        );
-        return sharedPreferences;
+      return EncryptedSharedPreferences.create(
+              "CnmcPref",
+              masterKeyAlias,
+              context,
+              EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+              EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+      );
     }
 }

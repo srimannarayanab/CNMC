@@ -11,10 +11,13 @@ import android.os.Handler;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.FirebaseApp;
+//import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -65,6 +68,7 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FirebaseApp.initializeApp(this);
         setContentView(R.layout.activity_login);
 //        ctx = getApplicationContext();
 
@@ -86,15 +90,25 @@ public class Login extends AppCompatActivity {
 
         if(checkInternetConnection(this)) {
 //            TelephonyManager tm = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
-            FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(Login.this,
-                    instanceIdResult -> {
-                        String newToken = instanceIdResult.getToken();
-                        editor.putString("FCMId", newToken);
-                        editor.apply();
-                    });
+//            FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(Login.this,
+//                    instanceIdResult -> {
+//                        String newToken = instanceIdResult.getToken();
+//                        editor.putString("FCMId", newToken);
+//                        editor.apply();
+//                    });
             /*if (!hasPermissions(getApplicationContext(), permissions)) {
                 ActivityCompat.requestPermissions(Login.this, permissions, PERMISSIONS);
             }*/
+
+//            FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
+//                if (!task.isSuccessful()) {
+//                    Log.w("FCM", "Fetching FCM registration token failed", task.getException());
+//                    return;
+//                }
+//                String token = task.getResult();
+//                editor.putString("FCMId", token);
+//                editor.apply();
+//            });
         } else {
             Toast.makeText(getApplicationContext(), "Unable to connect to Server ", Toast.LENGTH_SHORT).show();
             (new Handler()).postDelayed(this::exitApp, 2000);

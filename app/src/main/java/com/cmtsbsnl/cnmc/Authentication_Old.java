@@ -16,8 +16,8 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
+//import com.google.firebase.iid.FirebaseInstanceId;
+//import com.google.firebase.iid.InstanceIdResult;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -59,17 +59,17 @@ public class Authentication_Old extends AppCompatActivity {
     public void initApp() {
         if(checkInternetConnection(this)) {
             TelephonyManager tm = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
-            FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(Authentication_Old.this, new OnSuccessListener<InstanceIdResult>() {
-                    @Override
-                    public void onSuccess(InstanceIdResult instanceIdResult) {
-                        String newToken = instanceIdResult.getToken();
-                        SharedPreferences preferences = getApplicationContext().getSharedPreferences("CnmcPref", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = preferences.edit();
-                        editor.putString("FCMId", newToken);
-                        editor.commit();
-                        Log.e("newToken", newToken);
-                    }
-            });
+//            FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(Authentication_Old.this, new OnSuccessListener<InstanceIdResult>() {
+//                    @Override
+//                    public void onSuccess(InstanceIdResult instanceIdResult) {
+//                        String newToken = instanceIdResult.getToken();
+//                        SharedPreferences preferences = getApplicationContext().getSharedPreferences("CnmcPref", Context.MODE_PRIVATE);
+//                        SharedPreferences.Editor editor = preferences.edit();
+//                        editor.putString("FCMId", newToken);
+//                        editor.commit();
+//                        Log.e("newToken", newToken);
+//                    }
+//            });
 //            String imsi = null;
             String imsi_1 = "";
             String imei_1 = "";

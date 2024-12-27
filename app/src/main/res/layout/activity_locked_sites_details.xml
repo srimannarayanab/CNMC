@@ -15,30 +15,47 @@
         tools:ignore="MissingConstraints" >
 
         <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:id="@+id/home"
-            android:textSize="12sp"
-            android:background="@null"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:src="@mipmap/home" />
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="end"
+          android:id="@+id/home"
+          android:textSize="12sp"
+          android:background="@null"
+          android:layout_alignParentEnd="true"
+          android:layout_alignParentRight="true"
+          android:src="@mipmap/home" />
+
+        <ImageButton
+          android:id="@+id/toXlsx"
+          android:layout_width="@dimen/toolbar_icons"
+          android:layout_height="@dimen/toolbar_icons"
+          android:layout_alignParentEnd="true"
+          android:layout_alignParentRight="true"
+          android:layout_gravity="end"
+          android:src="@drawable/excel512"
+          android:textSize="12sp"
+          android:background="?selectableItemBackgroundBorderless"
+          android:scaleType="fitXY"
+          tools:layout_editor_absoluteX="339dp"
+          tools:layout_editor_absoluteY="16dp" />
+
+
     </androidx.appcompat.widget.Toolbar>
 
     <TextView
-        android:id="@+id/textView1"
-        android:layout_width="0dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="20dp"
-        android:text="Commercially Locked -Details"
-        android:textAlignment="gravity"
-        android:gravity="center|center_vertical"
-        android:textSize="20sp"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+      android:id="@+id/textView1"
+      android:layout_width="0dp"
+      android:layout_height="24dp"
+      android:layout_marginTop="16dp"
+      android:gravity="center|center_vertical"
+      android:text="Commercially Locked -Details"
+      android:textAlignment="gravity"
+      android:textColor="@color/white"
+      android:textSize="20sp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.0"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"

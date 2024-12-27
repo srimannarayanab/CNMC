@@ -20,5 +20,24 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
+-keepattributes Signature
+-keepattributes *Annotation*
+
+-keep class com.google.gson.reflect.TypeToken { *; }
+-keep class com.cmtsbsnl.cnmc.** { *; }
+
 -dontwarn com.google.errorprone.annotations.Immutable
 -dontwarn javax.xml.bind.DatatypeConverter
+
+-dontwarn org.kxml2.io.KXmlParser,org.kxml2.io.KXmlSerializer
+
+
+#-dontwarn org.kxml2.io.KXmlParser
+#-dontwarn org.kxml2.io.KXmlSerializer
+
+-keep class android.content.res.XmlResourceParser { *; }
+-keep class org.xmlpull.v1.XmlPullParser { *; }
+
+-keep class org.xmlpull.v1.** { *; }
+-keep class android.content.res.XmlResourceParser { *; }
+-keep class org.kxml2.io.** { *; }

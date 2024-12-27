@@ -52,19 +52,32 @@ public class Constants {
         try {
             String optr_id = obj.getString("operator_id");
             String opr_name = Config.getOperatorNames(operators, optr_id);
-            System.out.println(optr_id + "->" + opr_name);
-            if (opr_name.equals("Not Applicable")) {
-                opr_name = "";
+            if(obj.has("operator_names")){
+                opr_name = obj.getString("operator_names");
             } else {
-                opr_name = " - " + opr_name;
+//                System.out.println(optr_id + "->" + opr_name);
+                if (opr_name.equals("Not Applicable")) {
+                    opr_name = "";
+                } else {
+                    opr_name = " - " + opr_name;
+                }
             }
+//
             String reason = !obj.getString("fault_type").equals("null") ? obj.getString("fault_type") : "";
             StringBuilder str = new StringBuilder();
             str.append("Bts Name :").append(obj.getString("bts_name"));
             str.append("\n");
+            str.append("Bts Loc :").append(obj.optString("bts_location",""));
+            str.append("\n");
+            str.append("Bts Site ID :").append(obj.optString("bts_site_id",""));
+            str.append("\n");
             str.append("Bts Type :").append(obj.getString("bts_type")).append("-").append(obj.getString("sitetype"));
             str.append("\n");
-            str.append(obj.getString("ssa_name")).append("-").append(obj.getString("vendor_name")).append(opr_name);
+            if(opr_name.equals("Not Applicable")){
+                str.append(obj.getString("ssa_name")).append("-").append(obj.getString("vendor_name"));
+            } else {
+                str.append(obj.getString("ssa_name")).append("-").append(obj.getString("vendor_name")).append("-").append(opr_name);
+            }
             str.append("\n");
             str.append("Down Time: ").append(obj.getString("bts_status_dt"));
             str.append("\n");

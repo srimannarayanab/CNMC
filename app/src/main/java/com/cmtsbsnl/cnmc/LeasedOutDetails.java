@@ -3,6 +3,7 @@ package com.cmtsbsnl.cnmc;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -14,6 +15,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
+import android.provider.MediaStore;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -176,19 +178,46 @@ public class LeasedOutDetails extends SessionActivity {
 
             }
 
-            if(isExternalStorageWritable()) {
-                File filepath = new File(Environment.getExternalStorageDirectory()+"/Download/LeasedOutFaults.xls");
+//            if(isExternalStorageWritable()) {
+//                File filepath = new File(Environment.getExternalStorageDirectory()+"/Download/LeasedOutFaults.xls");
+//                try {
+//                    FileOutputStream fileOutputStream = new FileOutputStream(filepath);
+//                    workbook.write(fileOutputStream);
+//                    fileOutputStream.flush();
+//                    fileOutputStream.close();
+//                    Toast.makeText(getApplicationContext(), "Excel file generated sucessfully in downloads folder", Toast.LENGTH_SHORT).show();
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            } else{
+//                Toast.makeText(getApplicationContext(), "Sorry not permitted",Toast.LENGTH_SHORT).show();
+//            }
+
+            if (isExternalStorageWritable()) {
+                ContentValues values = new ContentValues();
+                values.put(MediaStore.MediaColumns.DISPLAY_NAME, "Faults.xls");
+                values.put(MediaStore.MediaColumns.MIME_TYPE, "application/vnd.ms-excel");
+                values.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS);
+
+                Uri uri = getContentResolver().insert(MediaStore.Files.getContentUri("external"), values);
                 try {
-                    FileOutputStream fileOutputStream = new FileOutputStream(filepath);
-                    workbook.write(fileOutputStream);
-                    fileOutputStream.flush();
-                    fileOutputStream.close();
-                    Toast.makeText(getApplicationContext(), "Excel file generated sucessfully in downloads folder", Toast.LENGTH_SHORT).show();
+                    OutputStream outputStream = getContentResolver().openOutputStream(uri);
+                    workbook.write(outputStream);
+                    outputStream.flush();
+                    outputStream.close();
+                    Toast.makeText(getApplicationContext(), "Excel file generated successfully in Downloads folder", Toast.LENGTH_SHORT).show();
+
+                    // Open the file
+                    Intent openIntent = new Intent(Intent.ACTION_VIEW);
+                    openIntent.setDataAndType(uri, "application/vnd.ms-excel");
+                    openIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    startActivity(Intent.createChooser(openIntent, "Open with"));
                 } catch (Exception e) {
-                    e.printStackTrace();
+//                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), "Failed to generate Excel file", Toast.LENGTH_SHORT).show();
                 }
-            } else{
-                Toast.makeText(getApplicationContext(), "Sorry not permitted",Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "External storage is not writable", Toast.LENGTH_SHORT).show();
             }
 
 

@@ -29,6 +29,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
+import java.lang.reflect.Type;
 import java.net.URLDecoder;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
@@ -77,7 +78,8 @@ public class AddBts extends SessionActivity {
 //        Get SSA Ids
         String ssaids = sharedPreferences.getString("ssa_ids", "");
         Gson gson = new Gson();
-        java.lang.reflect.Type type = new TypeToken<HashMap<String, String>>(){}.getType();
+//        java.lang.reflect.Type type = new TypeToken<HashMap<String, String>>(){}.getType();
+        Type type = new TypeToken<HashMap<String, String>>(){}.getType();
         HashMap<String, String> ssanames = gson.fromJson(ssaids, type);
         //        Iterator<String> itr =  ssanames.keySet().iterator();
         List<String> ssa_ids = new ArrayList<>(ssanames.keySet());

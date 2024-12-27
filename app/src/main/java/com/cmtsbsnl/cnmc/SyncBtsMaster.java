@@ -96,7 +96,7 @@ public class SyncBtsMaster extends Fragment {
 					pd.dismiss();
 
 					AlertDialog.Builder builder = new AlertDialog.Builder(activity.getContext())
-							.setIcon(R.mipmap.ic_launcher)
+							.setIcon(R.mipmap.ic_launcher_new)
 							.setTitle("Sync Bts Master")
 							.setMessage("Sucessfully completed master data sync")
 							.setPositiveButton("Ok", new DialogInterface.OnClickListener() {

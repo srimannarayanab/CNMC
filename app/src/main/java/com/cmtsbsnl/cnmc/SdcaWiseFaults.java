@@ -69,7 +69,7 @@ public class SdcaWiseFaults extends AppCompatActivity {
 
     MediaProjectionManager mediaProjectionManager = (MediaProjectionManager) getSystemService(Context.MEDIA_PROJECTION_SERVICE);
     Intent screenCaptureIntent = mediaProjectionManager.createScreenCaptureIntent();
-    startActivityForResult(screenCaptureIntent, REQUEST_MEDIA_PROJECTION);
+//    startActivityForResult(screenCaptureIntent, REQUEST_MEDIA_PROJECTION);
 
     try {
       sharedPreferences = new Preferences(this).getEncryptedSharedPreferences();
