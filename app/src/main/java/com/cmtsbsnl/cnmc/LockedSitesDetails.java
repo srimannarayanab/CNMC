@@ -1,5 +1,7 @@
 package com.cmtsbsnl.cnmc;
 
+import static com.cmtsbsnl.cnmc.Constants.addZeroWidthSpaces;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -62,6 +64,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.gson.Gson;
 
@@ -186,8 +189,12 @@ private void buttonCreateExcel(String url) {
       drow.createCell(0).setCellValue(obj.getString("bts_name"));
       drow.createCell(1).setCellValue(obj.getString("ssa_name"));
       drow.createCell(2).setCellValue(obj.getString("make"));
-      drow.createCell(3).setCellValue(obj.getString("lock_date"));
-      drow.createCell(4).setCellValue(reason);
+      drow.createCell(3).setCellValue(obj.getString("bts_location"));
+      drow.createCell(4).setCellValue(obj.getString("bts_site_id"));
+      drow.createCell(5).setCellValue(obj.getString("bts_type"));
+      drow.createCell(6).setCellValue(obj.getString("site_type"));
+      drow.createCell(7).setCellValue(obj.getString("lock_date"));
+      drow.createCell(8).setCellValue(reason);
 //      drow.createCell(5).setCellValue(Integer.parseInt(obj.getString("nor_cnt")));
 //      drow.createCell(6).setCellValue(Integer.parseInt(obj.getString("nok_cnt")));
 //      drow.createCell(7).setCellValue(Integer.parseInt(obj.getString("zte_cnt")));
@@ -325,23 +332,51 @@ private void buttonCreateExcel(String url) {
           for (int i = 0; i < arr.length(); i++) {
             final JSONObject obj = new JSONObject(arr.getString(i));
             String reason = !obj.getString("fault_type").equals("null") ? obj.getString("fault_type") : "";
+            String bts_type = obj.getString("bts_type");
+            String site_type = obj.getString("site_type");
             StringBuilder str = new StringBuilder();
-            str.append("Bts Name :").append(obj.getString("bts_name"));
-            str.append("\n");
-            str.append("Ssa Name :").append(obj.getString("ssa_name"));
-            str.append("\n");
-            str.append("Make :").append(obj.getString("make"));
-            str.append("\n");
-            str.append("Locked Date :").append(obj.getString("lock_date"));
-            str.append("\n");
-            str.append("Reason :").append(reason);
-            str.append("\n");
-                        /*if (!obj.getString("fault_updated_by").isEmpty() &&
-                                sfdt.parse(obj.getString("bts_status_dt")).before(sfdt.parse(obj.getString("fault_update_date")))) {
-                            str.append("updated_by :" + obj.getString("fault_updated_by"));
-                            str.append("\n");
-                            str.append("updated_date:" + obj.getString("fault_update_date"));
-                        }*/
+            String b_name = obj.getString("bts_name");
+            String rpid = "";
+            str.append("<b>Bts Name :</b>");
+
+            if(obj.getString("circle_id").equals("AP")) {
+              try {
+                String bts_site_id = obj.getString("bts_site_id");
+                if (bts_site_id.startsWith("T4") && bts_site_id.length() == 20) {
+                  rpid = bts_site_id.substring(14, 20);
+                } else if (bts_site_id.startsWith("T4") && bts_site_id.length() > 20) {
+                  rpid = obj.getString("bts_ip_id");
+                }
+              } catch (Exception e) {
+                Log.e("TCS 4G ID Missing", "BTS_SITE is missing");
+              }
+
+              if (b_name.toUpperCase().contains(rpid.toUpperCase())) {
+                str.append(addZeroWidthSpaces(b_name,25));
+              } else {
+                str.append(addZeroWidthSpaces(b_name + "_" + rpid, 25));
+              }
+            } else {
+              str.append(addZeroWidthSpaces(b_name,25));
+            }
+
+            str.append("<br>");
+            str.append("<b>BTS Site ID :</b>").append(addZeroWidthSpaces(obj.getString("bts_site_id"),25));
+            str.append("<br>");
+            str.append("<b>Bts Location :</b>").append(addZeroWidthSpaces(obj.getString("bts_location"),25));
+            str.append("<br>");
+            str.append("<b>Bts Type :</b>").append(getBtsType(bts_type));
+            str.append("/").append(getSiteType(site_type));
+            str.append("/").append(obj.getString("ssa_name"));
+            str.append("/").append(obj.getString("make"));
+            str.append("<br>");
+            str.append("<b>Site Category: </b>").append(obj.getString("site_category"));
+            str.append("<br>");
+            str.append("<b>Locked Date :</b>").append(obj.getString("lock_date"));
+            str.append("<br>");
+            str.append("<b>Reason :</b>").append(reason);
+            str.append("<br>");
+
 
             LinearLayout ll = new LinearLayout(activity);
             CardView card = new CardView(activity);
@@ -351,13 +386,26 @@ private void buttonCreateExcel(String url) {
             card.setPadding(10, 10, 10, 10);
             card.setRadius(30);
             card.setUseCompatPadding(true);
-//                    String site_category = obj.getString("site_category");
+            String site_category = obj.getString("site_category");
+            switch (site_category){
+              case "SUPER_CRITICAL":
+                card.setCardBackgroundColor(ContextCompat.getColor(LockedSitesDetails.this.getApplicationContext(),R.color.super_critical));
+                break;
+              case "CRITICAL":
+                card.setCardBackgroundColor(ContextCompat.getColor(LockedSitesDetails.this.getApplicationContext(),R.color.critical));
+                break;
+              case "IMPORTANT":
+                card.setCardBackgroundColor(ContextCompat.getColor(LockedSitesDetails.this.getApplicationContext(),R.color.important));
+                break;
+              default:
+                card.setCardBackgroundColor(ContextCompat.getColor(LockedSitesDetails.this.getApplicationContext(),R.color.normal));
+            }
             TextView tv = new TextView(activity);
 //                    tv.setBackgroundColor(Color.rgb(32, 9, 237));
             tv.setTextColor(Color.BLACK);
             tv.setGravity(Gravity.CENTER);
             tv.setPadding(15, 15, 15, 15);
-            tv.setText(str);
+            tv.setText(Html.fromHtml(str.toString()));
             tv.setTextAlignment(View.TEXT_ALIGNMENT_GRAVITY);
             tv.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
             tv.setTypeface(Typeface.MONOSPACE);
@@ -624,4 +672,47 @@ public static class getLockedSitesDetails extends AsyncTask<String, String, Stri
     return null;
   }
 }
+// Get BTS Type
+  private static String getBtsType(String bts_type){
+    String btstype;
+    switch (bts_type){
+      case "U":
+        btstype = "UMTS";
+        break;
+      case "G":
+        btstype = "GSM";
+        break;
+      case "L":
+        btstype = "LTE";
+        break;
+      default:
+        btstype ="";
+    }
+    return btstype;
+  }
+
+//  Get Site Type
+
+  public static String getSiteType(String site_type){
+    String tmp_site_type;
+    switch(site_type){
+      case "BS":
+        tmp_site_type="BSNL";
+        break;
+      case "NB":
+        tmp_site_type="NBSNL";
+        break;
+      case "IP":
+        tmp_site_type="IP";
+        break;
+      case "US":
+        tmp_site_type="USO";
+        break;
+      default:
+        tmp_site_type="UN-IDENTIFIED";
+    }
+    return tmp_site_type;
+  }
+
+
 }

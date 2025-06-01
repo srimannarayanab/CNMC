@@ -13,9 +13,9 @@
   <!-- <uses-permission android:name="android.permission.CAMERA" /> -->
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-  <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
+  <uses-permission
+    android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
     tools:ignore="ScopedStorage" />
-
 
   <application
     android:allowBackup="false"
@@ -27,6 +27,15 @@
     android:supportsRtl="true"
     android:theme="@style/AppTheme"
     android:usesCleartextTraffic="true">
+    <activity
+      android:name=".LegacyNwSsa"
+      android:exported="false" />
+    <activity
+      android:name=".Tcs4g_sa"
+      android:exported="false" />
+    <activity
+      android:name=".Tcs_4g"
+      android:exported="false" />
     <activity
       android:name=".SdcaWiseFaults"
       android:exported="false"

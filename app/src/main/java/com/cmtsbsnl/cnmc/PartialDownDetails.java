@@ -13,11 +13,19 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
+import android.text.SpannableStringBuilder;
+import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,340 +57,660 @@ import java.util.concurrent.ExecutionException;
 import javax.net.ssl.HttpsURLConnection;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 public class PartialDownDetails extends AppCompatActivity {
-    private String circle_id, ssa_id, criteria, sdca;
-    private TableLayout tl;
-    private SharedPreferences sharedPreferences;
-    private HashMap<String, String> operators;
+  private String circle_id, ssa_id, criteria, sdca;
+  private TableLayout tl;
+  private SharedPreferences sharedPreferences;
+  private HashMap<String, String> operators;
+  private JSONArray res;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_partial_down_details);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    // Inflate the menu to show the search icon
+    getMenuInflater().inflate(R.menu.menu_toolbar, menu);
 
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_EXTERNAL_STORAGE}, PackageManager.PERMISSION_GRANTED);
+    // Find the SearchView
+    MenuItem searchItem = menu.findItem(R.id.action_search);
+    SearchView searchView = (SearchView) searchItem.getActionView();
 
-        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
-        StrictMode.setVmPolicy(builder.build());
+    // Optional: Set up the SearchView listener
+    searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+      @Override
+      public boolean onQueryTextSubmit(String query) {
+        // Handle query submission (e.g., start a search)
+        Toast.makeText(PartialDownDetails.this, "Searching for: " + query, Toast.LENGTH_SHORT).show();
+        return true;
+      }
+
+      @Override
+      public boolean onQueryTextChange(String newText) {
+        // Handle query text change (e.g., live search)
+
+        JSONArray filteredArray = new JSONArray();
+        if(!newText.isEmpty()){
+          ScrollView scrollView = findViewById(R.id.scrollView);
+          ViewGroup container = (ViewGroup) scrollView.getChildAt(0); // Assuming ScrollView has one child
+          container.removeAllViews();
+        }
 
         try {
-            sharedPreferences = new Preferences(this).getEncryptedSharedPreferences();
-        } catch (GeneralSecurityException | IOException e) {
-            e.printStackTrace();
+          for (int i = 0; i < res.length(); i++) {
+            JSONObject jsonObject = res.getJSONObject(i);
+            // Check if "Bts_name" contains the search text
+            if (jsonObject.optString("bts_name").toLowerCase().contains(newText.toLowerCase())
+                || jsonObject.optString("bts_location").toLowerCase().contains(newText.toLowerCase())
+                || jsonObject.optString("bts_site_id").toLowerCase().contains(newText.toLowerCase())
+            ) {
+              filteredArray.put(jsonObject);
+            }
+          }
+//            assert filteredArray != null;
+//            System.out.println(filteredArray.toString());
+        } catch(JSONException e ){
+          e.printStackTrace();
         }
+//          if(filteredArray.length()>0){
+        for(int i=0; i<filteredArray.length(); i++){
+          final JSONObject obj;
+          CardView.LayoutParams param = new CardView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+              ViewGroup.LayoutParams.WRAP_CONTENT);
+          param.setMargins(10,10,10,10);
+          try {
+            obj = new JSONObject(filteredArray.getString(i));
+//                        String str = Constants.getBtsDownInfo(obj, operators);
+            GenerateCardString generateCardString = new GenerateCardString(PartialDownDetails.this);
+            String optr_id = obj.getString("operator_id");
+            String opr_name = Config.getOperatorNames(PartialDownDetails.this.operators, optr_id);
+            SpannableStringBuilder str = generateCardString.CardString(obj, opr_name);
+            LinearLayout ll = new LinearLayout(PartialDownDetails.this);
+            CardView card = new CardView(PartialDownDetails.this);
+            card.setMaxCardElevation(5);
+            card.setCardElevation(5);
+            card.setLayoutParams(param);
+            card.setPadding(10, 10, 10, 10);
+            card.setRadius(30);
+            card.setUseCompatPadding(true);
+            String site_category = obj.getString("site_category");
+            switch (site_category){
+              case "SUPER_CRITICAL":
+                card.setCardBackgroundColor(ContextCompat.getColor(PartialDownDetails.this.getApplicationContext(),R.color.super_critical));
+                break;
+              case "CRITICAL":
+                card.setCardBackgroundColor(ContextCompat.getColor(PartialDownDetails.this.getApplicationContext(),R.color.critical));
+                break;
+              case "IMPORTANT":
+                card.setCardBackgroundColor(ContextCompat.getColor(PartialDownDetails.this.getApplicationContext(),R.color.important));
+                break;
+              default:
+                card.setCardBackgroundColor(ContextCompat.getColor(PartialDownDetails.this.getApplicationContext(),R.color.normal));
+            }
+            TextView tv = new TextView(PartialDownDetails.this);
+            //                    tv.setBackgroundColor(Color.rgb(32, 9, 237));
+            tv.setTextColor(Color.BLACK);
+            tv.setGravity(Gravity.CENTER);
+            tv.setPadding(15, 15, 15, 15);
+            tv.setText(str);
+            tv.setTextAlignment(View.TEXT_ALIGNMENT_GRAVITY);
+            tv.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
+            tv.setTypeface(Typeface.MONOSPACE);
 
-        Intent intent = getIntent();
-        circle_id = intent.getStringExtra("circle_id");
-        ssa_id = intent.getStringExtra("ssa_id");
-        criteria = intent.getStringExtra("criteria");
-        sdca = intent.getStringExtra("sdca");
-
-        TextView header = findViewById(R.id.textView1);
-        String htxt = ssa_id;
-        if(ssa_id.equals("%")){
-            htxt = "All SSAs";
-        }
-        header.setText(getString(R.string.header_partialdown_details,circle_id,htxt));
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        if(getSupportActionBar() !=null) {
-            getSupportActionBar().setDisplayShowTitleEnabled(false);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setHomeButtonEnabled(true);
-            toolbar.setNavigationOnClickListener(v -> {
-                onBackPressed();
-//                finish();
+            card.addView(tv);
+            card.setOnClickListener(v -> {
+              Intent intent = new Intent(PartialDownDetails.this, ReasonUpdate.class);
+              try {
+                intent.putExtra("bts_id", obj.getString("bts_id"));
+              } catch (JSONException e) {
+                e.printStackTrace();
+              }
+              PartialDownDetails.this.startActivity(intent);
             });
+            ll.addView(card);
+            PartialDownDetails.this.tl.addView(ll);
+          } catch (JSONException e) {
+            e.printStackTrace();
+          }
+
         }
+        return true;
+      }
+    });
 
-        Uri.Builder uri_builder = new Uri.Builder()
-                .scheme("https")
-                .authority(Constants.getSecureBaseUrl())
-                .appendPath(getString(R.string.url_partial_down_details));
+    return true;
+  }
 
-        ImageButton homeBtn = (ImageButton) toolbar.findViewById(R.id.home);
-        homeBtn.setOnClickListener(v -> startActivity(new Intent(PartialDownDetails.this, Navigational.class)));
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      case R.id.action_search:
+        // Clear the text in the TextView
+        TextView textViewToolbar = findViewById(R.id.textView1);
+        textViewToolbar.setText("");  // Clears the text
+
+        // Optionally, you can hide the TextView if needed
+        // textViewToolbar.setVisibility(View.GONE);  // Hides the TextView
+
+        return true;
+
+      default:
+        return super.onOptionsItemSelected(item);
+    }
+  }
+
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_partial_down_details);
+    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        Manifest.permission.READ_EXTERNAL_STORAGE}, PackageManager.PERMISSION_GRANTED);
+
+    StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+    StrictMode.setVmPolicy(builder.build());
+
+    try {
+      sharedPreferences = new Preferences(this).getEncryptedSharedPreferences();
+    } catch (GeneralSecurityException | IOException e) {
+      e.printStackTrace();
+    }
+
+    Intent intent = getIntent();
+    circle_id = intent.getStringExtra("circle_id");
+    ssa_id = intent.getStringExtra("ssa_id");
+    criteria = intent.getStringExtra("criteria");
+    sdca = intent.getStringExtra("sdca");
+
+    TextView header = findViewById(R.id.textView1);
+    String htxt = ssa_id;
+    if(ssa_id.equals("%")){
+      htxt = "All SSAs";
+    }
+    String hdr = getString(R.string.header_partialdown_details,circle_id,htxt);
+    header.setText(hdr);
+
+    Toolbar toolbar = findViewById(R.id.toolbar);
+    setSupportActionBar(toolbar);
+    if(getSupportActionBar() !=null) {
+      getSupportActionBar().setDisplayShowTitleEnabled(false);
+      getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+      getSupportActionBar().setHomeButtonEnabled(true);
+      toolbar.setNavigationOnClickListener(v -> {
+        onBackPressed();
+//                finish();
+      });
+    }
+
+    Uri.Builder uri_builder = new Uri.Builder()
+        .scheme("https")
+        .authority(Constants.getSecureBaseUrl())
+        .appendPath(getString(R.string.url_partial_down_details));
+
+    ImageButton homeBtn = (ImageButton) toolbar.findViewById(R.id.home);
+    homeBtn.setOnClickListener(v -> startActivity(new Intent(PartialDownDetails.this, Navigational.class)));
 
 //        Presenting the data
-        tl = findViewById(R.id.tbl_lyt);
-        String optrnames = sharedPreferences.getString("optrs","hello");
+    tl = findViewById(R.id.tbl_lyt);
+    String optrnames = sharedPreferences.getString("optrs","hello");
 //        System.out.println(optrnames);
-        Gson gson = new Gson();
-        Map map = gson.fromJson(optrnames, Map.class);
+    Gson gson = new Gson();
+    Map map = gson.fromJson(optrnames, Map.class);
 //        System.out.println(map);
-        operators = new HashMap<>();
-        for(Object opr :map.keySet()){
-            String optr_id = opr.toString();
-            String optr_name = map.get(optr_id).toString();
-            operators.put( optr_id, optr_name);
-        }
+    operators = new HashMap<>();
+    for(Object opr :map.keySet()){
+      String optr_id = opr.toString();
+      String optr_name = map.get(optr_id).toString();
+      operators.put( optr_id, optr_name);
+    }
 
-        MyTask mytask = new MyTask(this);
-        mytask.execute(uri_builder.toString());
+    MyTask mytask = new MyTask(this);
+    mytask.execute(uri_builder.toString());
 
 //        TO Excel Generation
-        ImageButton toXlsx = findViewById(R.id.toXlsx);
-        toXlsx.setOnClickListener(v -> buttonCreateExcel(uri_builder.toString()));
-    }
+    ImageButton toXlsx = findViewById(R.id.toXlsx);
+    toXlsx.setOnClickListener(v -> buttonCreateExcel(uri_builder.toString()));
 
-    private void buttonCreateExcel(String url) {
-        try {
-            String flts = new getFaultsDetails(this).execute(url).get();
-            JSONObject flts_obj = new JSONObject(flts);
+    //    Spinner add Options
+    Spinner spinner = findViewById(R.id.spinner_below_actionbar);
+    String[] options = getResources().getStringArray(R.array.spinner_fault_details);
+    ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, options){
+      @Override
+      public boolean isEnabled(int position) {
+        // Disable the first item
+        return position != 0;
+      }
+
+      @Override
+      public View getDropDownView(int position, View convertView, ViewGroup parent) {
+        View view = super.getDropDownView(position, convertView, parent);
+
+        // Make the first item appear grayed out
+        TextView textView = (TextView) view;
+        if (position == 0) {
+          textView.setTextColor(Color.GRAY);
+        } else {
+          textView.setTextColor(Color.BLACK);
+        }
+        return view;
+      }
+    };
+    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    spinner.setAdapter(adapter);
+
+// Spinner on selected
+    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+      @Override
+      public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        if (position != 0) {
+          String selectedItem = (String) parent.getItemAtPosition(position);
+          GenerateFilteredData(res, selectedItem);
+
+        }
+      }
+
+      @Override
+      public void onNothingSelected(AdapterView<?> parent) {
+        // Handle case where nothing is selected
+      }
+    });
+    //  Spinner Drop down menu
+  }
+
+  private void buttonCreateExcel(String url) {
+    try {
+      String flts = new getFaultsDetails(this).execute(url).get();
+      JSONObject flts_obj = new JSONObject(flts);
 //            System.out.println(flts);
 //            Writing to Data to XLS file
-            HSSFWorkbook workbook = new HSSFWorkbook();
-            HSSFSheet sheet = workbook.createSheet("Faults");
+      HSSFWorkbook workbook = new HSSFWorkbook();
+      HSSFSheet sheet = workbook.createSheet("Faults");
 
-            HSSFRow row = sheet.createRow(0);
-            row.createCell(0).setCellValue("Btsname");
-            row.createCell(1).setCellValue("ssaname");
-            row.createCell(2).setCellValue("vendor_name");
-            row.createCell(3).setCellValue("bts_type");
-            row.createCell(4).setCellValue("site_type");
-            row.createCell(5).setCellValue("outsrc_name");
-            row.createCell(6).setCellValue("down_time");
-            row.createCell(7).setCellValue("cumm_downtime");
-            row.createCell(8).setCellValue("fault_type");
-            row.createCell(9).setCellValue("fault_update_by");
-            row.createCell(10).setCellValue("fault_update_date");
-
-
-            JSONArray arr = new JSONArray(flts_obj.getString("data"));
-            for(int i=0; i<arr.length(); i++){
-                HSSFRow drow = sheet.createRow(i+1);
-                JSONObject obj = arr.getJSONObject(i);
-                drow.createCell(0).setCellValue(obj.getString("bts_name"));
-                drow.createCell(1).setCellValue(obj.getString("ssa_name"));
-                drow.createCell(2).setCellValue(obj.getString("vendor_name"));
-                drow.createCell(3).setCellValue(obj.getString("bts_type"));
-                drow.createCell(4).setCellValue(obj.getString("sitetype"));
-                drow.createCell(5).setCellValue("");
-                drow.createCell(6).setCellValue(obj.getString("bts_status_dt"));
-                drow.createCell(7).setCellValue(Config.calculateTime(obj.getInt("cumm_down_time")));
-                drow.createCell(8).setCellValue(obj.getString("fault_type"));
-                drow.createCell(9).setCellValue(obj.getString("fault_updated_by"));
-                drow.createCell(10).setCellValue(obj.getString("fault_update_date"));
+      HSSFRow row = sheet.createRow(0);
+      row.createCell(0).setCellValue("Btsname");
+      row.createCell(1).setCellValue("ssaname");
+      row.createCell(2).setCellValue("vendor_name");
+      row.createCell(3).setCellValue("bts_type");
+      row.createCell(4).setCellValue("site_type");
+      row.createCell(5).setCellValue("outsrc_name");
+      row.createCell(6).setCellValue("down_time");
+      row.createCell(7).setCellValue("cumm_downtime");
+      row.createCell(8).setCellValue("fault_type");
+      row.createCell(9).setCellValue("fault_update_by");
+      row.createCell(10).setCellValue("fault_update_date");
 
 
-            }
+      JSONArray arr = new JSONArray(flts_obj.getString("data"));
+      for(int i=0; i<arr.length(); i++){
+        HSSFRow drow = sheet.createRow(i+1);
+        JSONObject obj = arr.getJSONObject(i);
+        drow.createCell(0).setCellValue(obj.getString("bts_name"));
+        drow.createCell(1).setCellValue(obj.getString("ssa_name"));
+        drow.createCell(2).setCellValue(obj.getString("vendor_name"));
+        drow.createCell(3).setCellValue(obj.getString("bts_type"));
+        drow.createCell(4).setCellValue(obj.getString("sitetype"));
+        drow.createCell(5).setCellValue("");
+        drow.createCell(6).setCellValue(obj.getString("bts_status_dt"));
+        drow.createCell(7).setCellValue(Config.calculateTime(obj.getInt("cumm_down_time")));
+        drow.createCell(8).setCellValue(obj.getString("fault_type"));
+        drow.createCell(9).setCellValue(obj.getString("fault_updated_by"));
+        drow.createCell(10).setCellValue(obj.getString("fault_update_date"));
 
-            if(isExternalStorageWritable()) {
-                File filepath = new File(Environment.getExternalStorageDirectory()+"/Download/PartialFaults.xls");
-                try {
-                    FileOutputStream fileOutputStream = new FileOutputStream(filepath);
-                    workbook.write(fileOutputStream);
-                    fileOutputStream.flush();
-                    fileOutputStream.close();
-                    Toast.makeText(getApplicationContext(), "Excel file generated sucessfully in downloads folder", Toast.LENGTH_SHORT).show();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else{
-                Toast.makeText(getApplicationContext(), "Sorry not permitted",Toast.LENGTH_SHORT).show();
-            }
 
+      }
 
-        } catch (ExecutionException | InterruptedException | JSONException e) {
-            e.printStackTrace();
+      if(isExternalStorageWritable()) {
+        File filepath = new File(Environment.getExternalStorageDirectory()+"/Download/PartialFaults.xls");
+        try {
+          FileOutputStream fileOutputStream = new FileOutputStream(filepath);
+          workbook.write(fileOutputStream);
+          fileOutputStream.flush();
+          fileOutputStream.close();
+          Toast.makeText(getApplicationContext(), "Excel file generated sucessfully in downloads folder", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+          e.printStackTrace();
         }
+      } else{
+        Toast.makeText(getApplicationContext(), "Sorry not permitted",Toast.LENGTH_SHORT).show();
+      }
 
+
+    } catch (ExecutionException | InterruptedException | JSONException e) {
+      e.printStackTrace();
     }
 
-    private boolean isExternalStorageWritable() {
-        //            Log.i("ExternalStorage","Yes it is writeable");
-        return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
+  }
+
+  private boolean isExternalStorageWritable() {
+    //            Log.i("ExternalStorage","Yes it is writeable");
+    return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
+  }
+
+  private static class MyTask extends AsyncTask<String, String, String> {
+    private final WeakReference<PartialDownDetails> activityReference;
+    ProgressDialog pd;
+
+    private MyTask(PartialDownDetails context) {
+      activityReference = new WeakReference<>(context);
     }
 
-    private static class MyTask extends AsyncTask<String, String, String> {
-        private final WeakReference<PartialDownDetails> activityReference;
-        ProgressDialog pd;
+    @Override
+    protected void onPreExecute() {
+      pd = new ProgressDialog(activityReference.get());
+      pd.setTitle("Fetching Alarms");
+      pd.setMessage("Processing...");
+      pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+      pd.setCancelable(false);
+      pd.show();
+    }
 
-        private MyTask(PartialDownDetails context) {
-            activityReference = new WeakReference<>(context);
+    @Override
+    protected String doInBackground(String... strings) {
+      PartialDownDetails activity = activityReference.get();
+      try {
+        HttpsURLConnection conn = new MyHttpClient(activity).getUrlConnection(URLDecoder.decode(strings[0],"UTF-8"));
+        conn.setRequestProperty("Authorization", activity.sharedPreferences.getString("web_token",""));
+        conn.setRequestProperty("Context-Type","application/json; utf-8");
+        conn.setRequestMethod("POST");
+        conn.setDoInput(true);
+        conn.setDoOutput(true);
+        JSONObject post_obj = new JSONObject();
+        post_obj.put("circle_id", activity.circle_id);
+        post_obj.put("ssa_id",activity.ssa_id);
+        post_obj.put("criteria",activity.criteria);
+        post_obj.put("sdca",activity.sdca);
+        post_obj.put("msisdn", activity.sharedPreferences.getString("msisdn",""));
+
+        OutputStream os = conn.getOutputStream();
+        os.write(post_obj.toString().getBytes());
+        os.flush();
+        os.close();
+        conn.connect();
+
+        InputStream inputStream = conn.getInputStream();
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
+        String line;
+        StringBuilder res = new StringBuilder();
+        while ((line = bufferedReader.readLine()) != null) {
+          res.append(line);
         }
+        bufferedReader.close();
+        inputStream.close();
+        conn.disconnect();
+        return res.toString();
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+      return null;
+    }
 
-        @Override
-        protected void onPreExecute() {
-            pd = new ProgressDialog(activityReference.get());
-            pd.setTitle("Fetching Alarms");
-            pd.setMessage("Processing...");
-            pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            pd.setCancelable(false);
-            pd.show();
+    @Override
+    protected void onPostExecute(String s) {
+      PartialDownDetails activity = activityReference.get();
+      pd.dismiss();
+      CardView.LayoutParams param = new CardView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+          ViewGroup.LayoutParams.WRAP_CONTENT);
+      param.setMargins(10,10,10,10);
+      try {
+        JSONObject url_obj = new JSONObject(s);
+        if(!url_obj.getString("result").equals("true")){
+          Toast.makeText(activity, url_obj.getString("error"), Toast.LENGTH_SHORT).show();
+          activity.startActivity(new Intent(activity, SesssionLogout.class));
+          activity.finish();
         }
-
-        @Override
-        protected String doInBackground(String... strings) {
-            PartialDownDetails activity = activityReference.get();
-            try {
-                HttpsURLConnection conn = new MyHttpClient(activity).getUrlConnection(URLDecoder.decode(strings[0],"UTF-8"));
-                conn.setRequestProperty("Authorization", activity.sharedPreferences.getString("web_token",""));
-                conn.setRequestProperty("Context-Type","application/json; utf-8");
-                conn.setRequestMethod("POST");
-                conn.setDoInput(true);
-                conn.setDoOutput(true);
-                JSONObject post_obj = new JSONObject();
-                post_obj.put("circle_id", activity.circle_id);
-                post_obj.put("ssa_id",activity.ssa_id);
-                post_obj.put("criteria",activity.criteria);
-                post_obj.put("sdca",activity.sdca);
-                post_obj.put("msisdn", activity.sharedPreferences.getString("msisdn",""));
-
-                OutputStream os = conn.getOutputStream();
-                os.write(post_obj.toString().getBytes());
-                os.flush();
-                os.close();
-                conn.connect();
-
-                InputStream inputStream = conn.getInputStream();
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
-                String line;
-                StringBuilder res = new StringBuilder();
-                while ((line = bufferedReader.readLine()) != null) {
-                    res.append(line);
-                }
-                bufferedReader.close();
-                inputStream.close();
-                conn.disconnect();
-                return res.toString();
-            } catch (Exception e) {
-                e.printStackTrace();
+        JSONArray arr = new JSONArray(url_obj.getString("data"));
+        if(activity !=null){
+          activity.res = arr;
+        }
+        if(arr.length()>0) {
+          assert activity != null;
+          TextView cnttextview = activity.findViewById(R.id.countTextView);
+          cnttextview.setText(String.valueOf(arr.length()));
+          for (int i = 0; i < arr.length(); i++) {
+            final JSONObject obj = new JSONObject(arr.getString(i));
+//                        String str = Constants.getBtsDownInfo(obj, activity.operators);
+            GenerateCardString generateCardString = new GenerateCardString(activity);
+            String optr_id = obj.getString("operator_id");
+            assert activity != null;
+            String opr_name = Config.getOperatorNames(activity.operators, optr_id);
+            SpannableStringBuilder str = generateCardString.CardString(obj, opr_name);
+//                        System.out.println(str);
+            LinearLayout ll = new LinearLayout(activity);
+            CardView card = new CardView(activity);
+            card.setMaxCardElevation(5);
+            card.setCardElevation(5);
+            card.setLayoutParams(param);
+            card.setPadding(10, 10, 10, 10);
+            card.setRadius(30);
+            card.setUseCompatPadding(true);
+            String site_category = obj.getString("site_category");
+            switch (site_category) {
+              case "SUPER_CRITICAL":
+                card.setCardBackgroundColor(ContextCompat.getColor(activity.getApplicationContext(),R.color.super_critical));
+                break;
+              case "CRITICAL":
+                card.setCardBackgroundColor(ContextCompat.getColor(activity.getApplicationContext(),R.color.critical));
+                break;
+              case "IMPORTANT":
+                card.setCardBackgroundColor(ContextCompat.getColor(activity.getApplicationContext(),R.color.important));
+                break;
+              default:
+                card.setCardBackgroundColor(ContextCompat.getColor(activity.getApplicationContext(),R.color.normal));
             }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            PartialDownDetails activity = activityReference.get();
-            pd.dismiss();
-            CardView.LayoutParams param = new CardView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT);
-            param.setMargins(10,10,10,10);
-            try {
-                JSONObject url_obj = new JSONObject(s);
-                if(!url_obj.getString("result").equals("true")){
-                    Toast.makeText(activity, url_obj.getString("error"), Toast.LENGTH_SHORT).show();
-                    activity.startActivity(new Intent(activity, SesssionLogout.class));
-                    activity.finish();
-                }
-                JSONArray arr = new JSONArray(url_obj.getString("data"));
-                if(arr.length()>0) {
-                    for (int i = 0; i < arr.length(); i++) {
-                        final JSONObject obj = new JSONObject(arr.getString(i));
-                        String str = Constants.getBtsDownInfo(obj, activity.operators);
-                        System.out.println(str);
-                        LinearLayout ll = new LinearLayout(activity);
-                        CardView card = new CardView(activity);
-                        card.setMaxCardElevation(5);
-                        card.setCardElevation(5);
-                        card.setLayoutParams(param);
-                        card.setPadding(10, 10, 10, 10);
-                        card.setRadius(30);
-                        card.setUseCompatPadding(true);
-                        String site_category = obj.getString("site_category");
-                        switch (site_category) {
-                            case "SUPER_CRITICAL":
-                                card.setCardBackgroundColor(ContextCompat.getColor(activity.getApplicationContext(),R.color.super_critical));
-                                break;
-                            case "CRITICAL":
-                                card.setCardBackgroundColor(ContextCompat.getColor(activity.getApplicationContext(),R.color.critical));
-                                break;
-                            case "IMPORTANT":
-                                card.setCardBackgroundColor(ContextCompat.getColor(activity.getApplicationContext(),R.color.important));
-                                break;
-                            default:
-                                card.setCardBackgroundColor(ContextCompat.getColor(activity.getApplicationContext(),R.color.normal));
-                        }
-                        TextView tv = new TextView(activity);
+            TextView tv = new TextView(activity);
 //                    tv.setBackgroundColor(Color.rgb(32, 9, 237));
-                        tv.setTextColor(Color.BLACK);
-                        tv.setGravity(Gravity.CENTER);
-                        tv.setPadding(15, 15, 15, 15);
-                        tv.setText(str);
-                        tv.setTextAlignment(View.TEXT_ALIGNMENT_GRAVITY);
-                        tv.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
-                        tv.setTypeface(Typeface.MONOSPACE);
+            tv.setTextColor(Color.BLACK);
+            tv.setGravity(Gravity.CENTER);
+            tv.setPadding(15, 15, 15, 15);
+            tv.setText(str);
+            tv.setTextAlignment(View.TEXT_ALIGNMENT_GRAVITY);
+            tv.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
+            tv.setTypeface(Typeface.MONOSPACE);
 
-                        card.addView(tv);
-                        card.setOnClickListener(v -> {
-                            Intent intent = new Intent(activity, ReasonUpdate.class);
-                            try {
-                                intent.putExtra("bts_id", obj.getString("bts_id"));
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                            activity.startActivity(intent);
-                        });
-                        ll.addView(card);
-                        activity.tl.addView(ll);
-                    }
-                } else {
-                    android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(activity).create();
-                    alertDialog.setTitle("Info...");
-                    alertDialog.setMessage("No Bts are down");
-                    alertDialog.setButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE, "Ok", (dialog, which) -> activity.finish());
-                    alertDialog.show();
-                }
-            } catch (JSONException e) {
+            card.addView(tv);
+            card.setOnClickListener(v -> {
+              Intent intent = new Intent(activity, ReasonUpdate.class);
+              try {
+                intent.putExtra("bts_id", obj.getString("bts_id"));
+              } catch (JSONException e) {
                 e.printStackTrace();
-            }
-
+              }
+              activity.startActivity(intent);
+            });
+            ll.addView(card);
+            activity.tl.addView(ll);
+          }
+        } else {
+          android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(activity).create();
+          alertDialog.setTitle("Info...");
+          alertDialog.setMessage("No Bts are down");
+          alertDialog.setButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE, "Ok", (dialog, which) -> activity.finish());
+          alertDialog.show();
         }
+      } catch (JSONException e) {
+        e.printStackTrace();
+      }
+
     }
+  }
 
-    public static class getFaultsDetails extends AsyncTask<String, String, String> {
-        private final WeakReference<PartialDownDetails> activityReference1;
+  public static class getFaultsDetails extends AsyncTask<String, String, String> {
+    private final WeakReference<PartialDownDetails> activityReference1;
 
-        public getFaultsDetails(PartialDownDetails context) {
-            activityReference1 = new WeakReference<>(context);
+    public getFaultsDetails(PartialDownDetails context) {
+      activityReference1 = new WeakReference<>(context);
+    }
+    @Override
+    protected String doInBackground(String... strings) {
+      PartialDownDetails activity = activityReference1.get();
+      try {
+        HttpsURLConnection conn = new MyHttpClient(activity).getUrlConnection(URLDecoder.decode(strings[0],"UTF-8"));
+        conn.setRequestProperty("Authorization", activity.sharedPreferences.getString("web_token",""));
+        conn.setRequestProperty("Context-Type","application/json; utf-8");
+        conn.setRequestMethod("POST");
+        conn.setDoInput(true);
+        conn.setDoOutput(true);
+        JSONObject post_obj = new JSONObject();
+        post_obj.put("circle_id", activity.circle_id);
+        post_obj.put("ssa_id",activity.ssa_id);
+        post_obj.put("criteria",activity.criteria);
+        post_obj.put("sdca",activity.sdca);
+        post_obj.put("msisdn", activity.sharedPreferences.getString("msisdn",""));
+
+        OutputStream os = conn.getOutputStream();
+        os.write(post_obj.toString().getBytes());
+        os.flush();
+        os.close();
+        conn.connect();
+
+        InputStream inputStream = conn.getInputStream();
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
+        String line;
+        StringBuilder res = new StringBuilder();
+        while ((line = bufferedReader.readLine()) != null) {
+          res.append(line);
         }
-        @Override
-        protected String doInBackground(String... strings) {
-            PartialDownDetails activity = activityReference1.get();
+        bufferedReader.close();
+        inputStream.close();
+        conn.disconnect();
+        return res.toString();
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+      return null;
+    }
+  }
+
+  //  Filtered Item Data to be organized
+  public void GenerateFilteredData(JSONArray arr, String selectedString) {
+//    Log.d("Selected String",selectedString);
+    JSONArray filteredArray = new JSONArray();
+    try{
+      if(selectedString.equals("All")){
+        filteredArray=arr;
+      } else {
+        for (int i = 0; i < arr.length(); i++) {
+          JSONObject obj = new JSONObject(arr.getString(i));
+          String bts_site_id = obj.getString("bts_site_id");
+//        Tejas 9.2 Band -1 Sites
+          if (selectedString.startsWith("Tejas-Band")) {
+            if (bts_site_id.length() == 20 && bts_site_id.startsWith("T4")) {
+              String band = bts_site_id.substring(4, 6);
+//            Log.d("Filtered Data", "9.2"+" "+band );
+              if (selectedString.equals("Tejas-Band-01") && band.equals("01")) {
+                filteredArray.put(obj);
+              } else if (selectedString.equals("Tejas-Band-28") && band.equals("28")) {
+                filteredArray.put(obj);
+              } else if (selectedString.equals("Tejas-Band-41") && band.equals("41")) {
+                filteredArray.put(obj);
+              }
+            }
+          } else if (selectedString.startsWith("Saturation")) { // Saturation Project
+            if (bts_site_id.length() > 20 && bts_site_id.startsWith("T4")) {
+              String band = bts_site_id.substring(4, 6);
+              if (selectedString.equals("Saturation-Band-01") && band.equals("01")) {
+                filteredArray.put(obj);
+              } else if (selectedString.equals("Saturation-Band-28") && band.equals("28")) {
+                filteredArray.put(obj);
+              } else if (selectedString.equals("Saturation-Band-41") && band.equals("41")) {
+                filteredArray.put(obj);
+              }
+            }
+          } else if (selectedString.equals("Reason-NotUpdated")) {
+            String fault_updated_by = obj.getString("fault_updated_by");
+            if (obj.isNull("fault_updated_by")) {
+              filteredArray.put(obj);
+            }
+          } else if (selectedString.equals("LTE-Legacy N/W")) {
+            String bts_type = obj.getString("bts_type");
+            if (bts_type.equals("LTE") && !bts_site_id.startsWith("T4")) {
+              filteredArray.put(obj);
+            }
+          } else if (selectedString.equals("Legacy N/W 2G/3G")) {
+            String bts_type = obj.getString("bts_type");
+            if (bts_type.equals("GSM") || bts_type.equals("UMTS")) {
+              filteredArray.put(obj);
+            }
+          }
+        }
+      }
+      TextView cnttextview = findViewById(R.id.countTextView);
+      cnttextview.setText(String.valueOf(filteredArray.length()));
+
+//        Add the card Views for the selected Data
+      ScrollView scrollView = findViewById(R.id.scrollView);
+      ViewGroup container = (ViewGroup) scrollView.getChildAt(0); // Assuming ScrollView has one child
+      container.removeAllViews();
+
+      for(int i=0; i<filteredArray.length(); i++){
+        final JSONObject obj;
+        CardView.LayoutParams param = new CardView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT);
+        param.setMargins(10,10,10,10);
+        try {
+          obj = new JSONObject(filteredArray.getString(i));
+          GenerateCardString generateCardString = new GenerateCardString(PartialDownDetails.this);
+          String optr_id = obj.getString("operator_id");
+          String opr_name = Config.getOperatorNames(PartialDownDetails.this.operators, optr_id);
+          SpannableStringBuilder str = generateCardString.CardString(obj, opr_name);
+          LinearLayout ll = new LinearLayout(PartialDownDetails.this);
+          CardView card = new CardView(PartialDownDetails.this);
+          card.setMaxCardElevation(5);
+          card.setCardElevation(5);
+          card.setLayoutParams(param);
+          card.setPadding(10, 10, 10, 10);
+          card.setRadius(30);
+          card.setUseCompatPadding(true);
+          String site_category = obj.getString("site_category");
+          switch (site_category){
+            case "SUPER_CRITICAL":
+              card.setCardBackgroundColor(ContextCompat.getColor(PartialDownDetails.this.getApplicationContext(),R.color.super_critical));
+              break;
+            case "CRITICAL":
+              card.setCardBackgroundColor(ContextCompat.getColor(PartialDownDetails.this.getApplicationContext(),R.color.critical));
+              break;
+            case "IMPORTANT":
+              card.setCardBackgroundColor(ContextCompat.getColor(PartialDownDetails.this.getApplicationContext(),R.color.important));
+              break;
+            default:
+              card.setCardBackgroundColor(ContextCompat.getColor(PartialDownDetails.this.getApplicationContext(),R.color.normal));
+          }
+          TextView tv = new TextView(PartialDownDetails.this);
+          //                    tv.setBackgroundColor(Color.rgb(32, 9, 237));
+          tv.setTextColor(Color.BLACK);
+          tv.setGravity(Gravity.CENTER);
+          tv.setPadding(15, 15, 15, 15);
+          tv.setText(str);
+          tv.setTextAlignment(View.TEXT_ALIGNMENT_GRAVITY);
+          tv.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
+          tv.setTypeface(Typeface.MONOSPACE);
+
+          card.addView(tv);
+          card.setOnClickListener(v -> {
+            Intent intent = new Intent(PartialDownDetails.this, ReasonUpdate.class);
             try {
-                HttpsURLConnection conn = new MyHttpClient(activity).getUrlConnection(URLDecoder.decode(strings[0],"UTF-8"));
-                conn.setRequestProperty("Authorization", activity.sharedPreferences.getString("web_token",""));
-                conn.setRequestProperty("Context-Type","application/json; utf-8");
-                conn.setRequestMethod("POST");
-                conn.setDoInput(true);
-                conn.setDoOutput(true);
-                JSONObject post_obj = new JSONObject();
-                post_obj.put("circle_id", activity.circle_id);
-                post_obj.put("ssa_id",activity.ssa_id);
-                post_obj.put("criteria",activity.criteria);
-                post_obj.put("sdca",activity.sdca);
-                post_obj.put("msisdn", activity.sharedPreferences.getString("msisdn",""));
-
-                OutputStream os = conn.getOutputStream();
-                os.write(post_obj.toString().getBytes());
-                os.flush();
-                os.close();
-                conn.connect();
-
-                InputStream inputStream = conn.getInputStream();
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
-                String line;
-                StringBuilder res = new StringBuilder();
-                while ((line = bufferedReader.readLine()) != null) {
-                    res.append(line);
-                }
-                bufferedReader.close();
-                inputStream.close();
-                conn.disconnect();
-                return res.toString();
-            } catch (Exception e) {
-                e.printStackTrace();
+              intent.putExtra("bts_id", obj.getString("bts_id"));
+            } catch (JSONException e) {
+              e.printStackTrace();
             }
-            return null;
+            PartialDownDetails.this.startActivity(intent);
+          });
+          ll.addView(card);
+          PartialDownDetails.this.tl.addView(ll);
+        } catch (JSONException e) {
+          e.printStackTrace();
         }
+      }
+
+    } catch (Exception e) {
+      Log.e("JSON Exception Filtered array", e.toString());
     }
+//    return true;;
+  }
+
+
 }

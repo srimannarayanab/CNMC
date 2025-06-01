@@ -33,6 +33,13 @@
     <string name="url_circle_comm_locked">CircleCommercialLocked</string>
     <string name="url_ssa_comm_locked">SSACommercialLocked</string>
     <string name="url_locked_sites_details">LockedSiteDetails</string>
+<!--    TCS 4G/SATURATION/LEFT WING Urls-->
+    <string name="url_ssa_tcs4g_down">SSAWiseTcs4GDown</string>
+    <string name="url_ssa_tcs4g_sa_down">SSAWiseTcs4GSADown</string>
+<!--    -->
+<!--    Legacy Down-->
+    <string name="url_legacy_ssa_down">SSAWiseLegacyDown</string>
+<!--    -->
     <string name="url_user_login">Userlogin</string>
     <string name="url_get_bts_ssa">GetBtsSSA</string>
     <string name="url_add_bts_admin">AddBtsByAdmin</string>

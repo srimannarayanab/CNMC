@@ -70,20 +70,20 @@
   <string name="header_4g">4G</string>
   <string name="header_categorywise">CategoryWise-%1$s</string>
   <string name="down_wrt_total">%1$s/%2$s</string>
-  <string name="header_downdetails">BtsDown-%1$s-%2$s</string>
+  <string name="header_downdetails">BtsDown-%1$s\n%2$s</string>
   <string name="app_version">Ver.%1$s</string>
   <string name="header_mybts_add_site_details">MyBts Add - Site Details</string>
   <string name="circle_ssaname">%1$s / %2$s</string>
   <string name="bts_site_verndor_cat">%1$s / %2$s / %3$s / %4$s</string>
-  <string name="header_tech">TechWise-%1$s</string>
-  <string name="header_tech_circle_ssa">TechWise-%1$s-%2$s</string>
+  <string name="header_tech">TechWise\n%1$s</string>
+  <string name="header_tech_circle_ssa">TechWise-%1$s\n%2$s</string>
   <string name="header_lt_1day">&#60;1D</string>
   <string name="header_1_2_day">1&#8211;2D</string>
   <string name="header_2_3_day">2&#8211;3D</string>
   <string name="header_3_7_day">3&#8211;7D</string>
   <string name="header_gt_7_day">&#62;7D</string>
   <string name="header_durationwise">DurationWise&#8211;%1$s</string>
-  <string name="header_durationwise_ssa">DurationWise&#8211;%1$s-%2$s</string>
+  <string name="header_durationwise_ssa">DurationWise&#8211;%1$s\n%2$s</string>
   <string name="header_sitetypewise">SiteTypeWise-%1$s</string>
   <string name="header_bsnl">BS</string>
   <string name="header_nonbsnl">NB</string>
@@ -92,18 +92,18 @@
   <string name="header_unidentified">UI</string>
   <string name="header_outsourced">OutSourced</string>
   <string name="header_bsnl_nonip">Bsnl [Non-IP]</string>
-  <string name="header_circle_outsourced">%1$s&#8211;Outsourced Availability</string>
-  <string name="header_locked_details">LockedSites - %1$s - %2$s</string>
-  <string name="outsource_details">"OutScr - %1$s %2$s"</string>
+  <string name="header_circle_outsourced">%1$s&#8211;Outsourced\nAvailability</string>
+  <string name="header_locked_details">LockedSites - %1$s\n%2$s</string>
+  <string name="outsource_details">"OutSourced - %1$s\n%2$s"</string>
   <string name="down_wrt_total_for_total">%1$s\n%2$s</string>
   <string name="header_gsm">GSM</string>
   <string name="header_umts">UMTS</string>
   <string name="header_lte">LTE</string>
   <string name="header_partialdown">"Partialdown"</string>
   <string name="header_partialdown_circle">Partialdown - %1$s</string>
-  <string name="header_partialdown_details">Partialdown - %1$s - %2$s</string>
+  <string name="header_partialdown_details">Partialdown - %1$s\n%2$s</string>
   <string name="header_leasedout">LeasedOut-%1$s</string>
-  <string name="header_leasedout_details">LeasedOut-%1$s-%2$s</string>
+  <string name="header_leasedout_details">LeasedOut-%1$s\n%2$s</string>
   <string name="header_instances">Inst</string>
   <string name="header_duration_hrs">Dur-Hrs</string>
   <string name="header_unique_bts">U-Bts</string>
@@ -179,5 +179,27 @@
   <string name="get_ip_assigned_sites">Get IP Assigned Sites</string>
   <string name="add_ip_user">Add IP User</string>
   <string name="title_activity_sdca_wise_faults">SdcaWiseFaults</string>
+  <string name="header_tcs4g">TCS-4G-%1$S</string>
+  <string name="header_tcs4g_sa">TCS-4G-SA-%1$S</string>
+  <string name="header_band_01">B-01</string>
+  <string name="header_band_28">B-28</string>
+  <string name="header_band_41">B-41</string>
+  <string name="header_tcs">Tcs</string>
+  <string name="header_legacy">Legacy N/W \n %1$s</string>
 
+  <!--  Options for Drop Down of details-->
+  <string-array name="spinner_fault_details">
+    <item>Select Filter Item</item>
+    <item>Tejas-Band-01</item>
+    <item>Tejas-Band-28</item>
+    <item>Tejas-Band-41</item>
+    <item>Saturation-Band-01</item>
+    <item>Saturation-Band-28</item>
+    <item>Saturation-Band-41</item>
+    <item>LTE-Legacy N/W</item>
+    <item>Legacy N/W 2G/3G</item>
+    <item>Reason-NotUpdated</item>
+    <item>All</item>
+
+  </string-array>
 </resources>

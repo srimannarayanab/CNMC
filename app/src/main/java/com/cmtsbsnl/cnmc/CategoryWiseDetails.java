@@ -16,11 +16,20 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
+import android.text.Html;
+import android.text.SpannableStringBuilder;
+import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,6 +64,7 @@ import java.util.concurrent.ExecutionException;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
@@ -66,6 +76,139 @@ public class CategoryWiseDetails extends SessionActivity {
   private SharedPreferences sharedPreferences;
   private HashMap<String, String> operators;
   private final SimpleDateFormat sfdt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+  public JSONArray res ;
+
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    // Inflate the menu to show the search icon
+    getMenuInflater().inflate(R.menu.menu_toolbar, menu);
+
+    // Find the SearchView
+    MenuItem searchItem = menu.findItem(R.id.action_search);
+    SearchView searchView = (SearchView) searchItem.getActionView();
+
+    // Optional: Set up the SearchView listener
+    searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+      @Override
+      public boolean onQueryTextSubmit(String query) {
+        // Handle query submission (e.g., start a search)
+        Toast.makeText(CategoryWiseDetails.this, "Searching for: " + query, Toast.LENGTH_SHORT).show();
+        return true;
+      }
+
+      @Override
+      public boolean onQueryTextChange(String newText) {
+        // Handle query text change (e.g., live search)
+
+        JSONArray filteredArray = new JSONArray();
+        if(!newText.isEmpty()){
+          ScrollView scrollView = findViewById(R.id.scrollView);
+          ViewGroup container = (ViewGroup) scrollView.getChildAt(0); // Assuming ScrollView has one child
+          container.removeAllViews();
+        }
+
+        try {
+          for (int i = 0; i < res.length(); i++) {
+            JSONObject jsonObject = res.getJSONObject(i);
+            // Check if "Bts_name" contains the search text
+            if (jsonObject.optString("bts_name").toLowerCase().contains(newText.toLowerCase())
+                || jsonObject.optString("bts_location").toLowerCase().contains(newText.toLowerCase())
+                || jsonObject.optString("bts_site_id").toLowerCase().contains(newText.toLowerCase())
+            ) {
+              filteredArray.put(jsonObject);
+            }
+          }
+//            assert filteredArray != null;
+//            System.out.println(filteredArray.toString());
+        } catch(JSONException e ){
+          e.printStackTrace();
+        }
+//          if(filteredArray.length()>0){
+        for(int i=0; i<filteredArray.length(); i++){
+          final JSONObject obj;
+          CardView.LayoutParams param = new CardView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+              ViewGroup.LayoutParams.WRAP_CONTENT);
+          param.setMargins(10,10,10,10);
+          try {
+            obj = new JSONObject(filteredArray.getString(i));
+            GenerateCardString generateCardString = new GenerateCardString(CategoryWiseDetails.this);
+            String optr_id = obj.getString("operator_id");
+            String opr_name = Config.getOperatorNames(CategoryWiseDetails.this.operators, optr_id);
+            SpannableStringBuilder str = generateCardString.CardString(obj, opr_name);
+            LinearLayout ll = new LinearLayout(CategoryWiseDetails.this);
+            CardView card = new CardView(CategoryWiseDetails.this);
+            card.setMaxCardElevation(5);
+            card.setCardElevation(5);
+            card.setLayoutParams(param);
+            card.setPadding(10, 10, 10, 10);
+            card.setRadius(30);
+            card.setUseCompatPadding(true);
+            String site_category = obj.getString("site_category");
+            switch (site_category){
+              case "SUPER_CRITICAL":
+                card.setCardBackgroundColor(ContextCompat.getColor(CategoryWiseDetails.this.getApplicationContext(),R.color.super_critical));
+                break;
+              case "CRITICAL":
+                card.setCardBackgroundColor(ContextCompat.getColor(CategoryWiseDetails.this.getApplicationContext(),R.color.critical));
+                break;
+              case "IMPORTANT":
+                card.setCardBackgroundColor(ContextCompat.getColor(CategoryWiseDetails.this.getApplicationContext(),R.color.important));
+                break;
+              default:
+                card.setCardBackgroundColor(ContextCompat.getColor(CategoryWiseDetails.this.getApplicationContext(),R.color.normal));
+            }
+            TextView tv = new TextView(CategoryWiseDetails.this);
+            //                    tv.setBackgroundColor(Color.rgb(32, 9, 237));
+            tv.setTextColor(Color.BLACK);
+            tv.setGravity(Gravity.CENTER);
+            tv.setPadding(15, 15, 15, 15);
+            tv.setText(str);
+            tv.setTextAlignment(View.TEXT_ALIGNMENT_GRAVITY);
+            tv.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
+            tv.setTypeface(Typeface.MONOSPACE);
+
+            card.addView(tv);
+            card.setOnClickListener(v -> {
+              Intent intent = new Intent(CategoryWiseDetails.this, ReasonUpdate.class);
+              try {
+                intent.putExtra("bts_id", obj.getString("bts_id"));
+              } catch (JSONException e) {
+                e.printStackTrace();
+              }
+              CategoryWiseDetails.this.startActivity(intent);
+            });
+            ll.addView(card);
+            CategoryWiseDetails.this.tl.addView(ll);
+          } catch (JSONException e) {
+            e.printStackTrace();
+          }
+
+        }
+        return true;
+      }
+    });
+
+    return true;
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      case R.id.action_search:
+        // Clear the text in the TextView
+        TextView textViewToolbar = findViewById(R.id.textView1);
+        textViewToolbar.setText("");  // Clears the text
+
+        // Optionally, you can hide the TextView if needed
+        // textViewToolbar.setVisibility(View.GONE);  // Hides the TextView
+
+        return true;
+
+      default:
+        return super.onOptionsItemSelected(item);
+    }
+  }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +245,6 @@ public class CategoryWiseDetails extends SessionActivity {
 
     header = findViewById(R.id.textView1);
     header.setText(getString(R.string.header_downdetails, circle, h_txt));
-    header.setTextSize(18);
 
 
     Toolbar toolbar = findViewById(R.id.toolbar);
@@ -154,7 +296,55 @@ public class CategoryWiseDetails extends SessionActivity {
 //        TO Excel Generation
     toXlsx = findViewById(R.id.toXlsx);
     toXlsx.setOnClickListener((View v)->buttonCreateExcel(uri_builder.toString()));
+
+    //    Spinner add Options
+    Spinner spinner = findViewById(R.id.spinner_below_actionbar);
+    String[] options = getResources().getStringArray(R.array.spinner_fault_details);
+    ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, options){
+      @Override
+      public boolean isEnabled(int position) {
+        // Disable the first item
+        return position != 0;
+      }
+
+      @Override
+      public View getDropDownView(int position, View convertView, ViewGroup parent) {
+        View view = super.getDropDownView(position, convertView, parent);
+
+        // Make the first item appear grayed out
+        TextView textView = (TextView) view;
+        if (position == 0) {
+          textView.setTextColor(Color.GRAY);
+        } else {
+          textView.setTextColor(Color.BLACK);
+        }
+        return view;
+      }
+    };
+    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    spinner.setAdapter(adapter);
+
+// Spinner on selected
+    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+      @Override
+      public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        if (position != 0) {
+          String selectedItem = (String) parent.getItemAtPosition(position);
+          GenerateFilteredData(res, selectedItem);
+
+        }
+      }
+
+      @Override
+      public void onNothingSelected(AdapterView<?> parent) {
+        // Handle case where nothing is selected
+      }
+    });
+    //  Spinner Drop down menu
+
   }
+
+
 
   private void buttonCreateExcel(String url) {
     try {
@@ -315,27 +505,28 @@ public class CategoryWiseDetails extends SessionActivity {
     protected void onPostExecute(String s) {
       CategoryWiseDetails activity = activityReference.get();
       pd.dismiss();
-//            Config utils = new Config();
-//            System.out.println(s);
-//            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-//                    LinearLayout.LayoutParams.MATCH_PARENT,
-//                    LinearLayout.LayoutParams.WRAP_CONTENT
-//            );
       CardView.LayoutParams param = new CardView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
           ViewGroup.LayoutParams.WRAP_CONTENT);
       param.setMargins(10,10,10,10);
       try {
         JSONObject url_obj = new JSONObject(s);
+
         if(!url_obj.getString("result").equals("true")){
           Toast.makeText(activity, url_obj.getString("error"), Toast.LENGTH_SHORT).show();
           activity.startActivity(new Intent(activity, SesssionLogout.class));
           activity.finish();
         }
         JSONArray arr = new JSONArray(url_obj.getString("data"));
-//                System.out.println(s);
-//                Config util = new Config();
+        if (activity != null) {
+          activity.res = arr;
+        }
         if(arr.length()>0){
+          assert activity != null;
+          TextView cnttextview = activity.findViewById(R.id.countTextView);
+          cnttextview.setText(String.valueOf(arr.length()));
+
           for(int i=0; i<arr.length(); i++){
+            GenerateCardString generateCardString = new GenerateCardString(activity);
             final JSONObject obj = new JSONObject(arr.getString(i));
             String optr_id = obj.getString("operator_id");
             String opr_name = Config.getOperatorNames(activity.operators, optr_id);
@@ -346,37 +537,7 @@ public class CategoryWiseDetails extends SessionActivity {
               opr_name=" - "+opr_name;
             }
             String reason = obj.getString("fault_type").isEmpty() ? obj.getString("fault_type") :"";
-            StringBuilder str = new StringBuilder();
-            str.append("Bts Name :").append(obj.getString("bts_name"));
-            str.append("\n");
-            str.append("Bts Location :").append(obj.optString("bts_location",""));
-            str.append("\n");
-            str.append("Bts Site ID :").append(obj.optString("bts_site_id",""));
-            str.append("\n");
-            str.append("Bts Type :").append(obj.getString("bts_type")).append("-").append(obj.getString("sitetype"));
-            str.append("\n");
-            str.append(obj.getString("ssa_name")).append("-").append(obj.getString("vendor_name")).append(opr_name);
-            str.append("\n");
-            str.append("Down Time: ").append(obj.getString("bts_status_dt"));
-            str.append("\n");
-            str.append("Cumulative Down Time :").append(Config.calculateTime(obj.getInt("cumm_down_time")));
-            str.append("\n");
-            str.append("Site Category :").append(obj.getString("site_category"));
-            if(!obj.getString("outsrc_name").equals("NOT APPLICABLE")) {
-              str.append("\n");
-              str.append("OutSourced :").append(obj.getString("outsrc_name"));
-            }
-            if (!obj.getString("fault_updated_by").equals("null")){
-              if (Objects.requireNonNull(activity.sfdt.parse(obj.getString("bts_status_dt"))).before(activity.sfdt.parse(obj.getString("fault_update_date")))) {
-                str.append("\n");
-                str.append("Reason :").append(reason);
-                str.append("\n");
-                str.append("updated_by :").append(obj.getString("fault_updated_by"));
-                str.append("\n");
-                str.append("updated_date:").append(obj.getString("fault_update_date"));
-              }
-            }
-
+            SpannableStringBuilder str = generateCardString.CardString(obj, opr_name);
             LinearLayout ll = new LinearLayout(activity);
             CardView card = new CardView(activity);
             card.setMaxCardElevation(5);
@@ -431,7 +592,7 @@ public class CategoryWiseDetails extends SessionActivity {
               ((DialogInterface dialogInterface, int which) -> activity.finish()));
           alertDialog.show();
         }
-      } catch (JSONException | ParseException e) {
+      } catch (JSONException e) {
         e.printStackTrace();
       }
 
@@ -485,4 +646,133 @@ public class CategoryWiseDetails extends SessionActivity {
       return null;
     }
   }
+
+  //  Filtered Item Data to be organized
+  public void GenerateFilteredData(JSONArray arr, String selectedString) {
+//    Log.d("Selected String",selectedString);
+    JSONArray filteredArray = new JSONArray();
+    try{
+      if(selectedString.equals("All")){
+        filteredArray=arr;
+      } else {
+        for (int i = 0; i < arr.length(); i++) {
+          JSONObject obj = new JSONObject(arr.getString(i));
+          String bts_site_id = obj.getString("bts_site_id");
+//        Tejas 9.2 Band -1 Sites
+          if (selectedString.startsWith("Tejas-Band")) {
+            if (bts_site_id.length() == 20 && bts_site_id.startsWith("T4")) {
+              String band = bts_site_id.substring(4, 6);
+//            Log.d("Filtered Data", "9.2"+" "+band );
+              if (selectedString.equals("Tejas-Band-01") && band.equals("01")) {
+                filteredArray.put(obj);
+              } else if (selectedString.equals("Tejas-Band-28") && band.equals("28")) {
+                filteredArray.put(obj);
+              } else if (selectedString.equals("Tejas-Band-41") && band.equals("41")) {
+                filteredArray.put(obj);
+              }
+            }
+          } else if (selectedString.startsWith("Saturation")) { // Saturation Project
+            if (bts_site_id.length() > 20 && bts_site_id.startsWith("T4")) {
+              String band = bts_site_id.substring(4, 6);
+              if (selectedString.equals("Saturation-Band-01") && band.equals("01")) {
+                filteredArray.put(obj);
+              } else if (selectedString.equals("Saturation-Band-28") && band.equals("28")) {
+                filteredArray.put(obj);
+              } else if (selectedString.equals("Saturation-Band-41") && band.equals("41")) {
+                filteredArray.put(obj);
+              }
+            }
+          } else if (selectedString.equals("Reason-NotUpdated")) {
+            String fault_updated_by = obj.getString("fault_updated_by");
+            if (obj.isNull("fault_updated_by")) {
+              filteredArray.put(obj);
+            }
+          } else if (selectedString.equals("LTE-Legacy N/W")) {
+            String bts_type = obj.getString("bts_type");
+            if (bts_type.equals("LTE") && !bts_site_id.startsWith("T4")) {
+              filteredArray.put(obj);
+            }
+          } else if (selectedString.equals("Legacy N/W 2G/3G")) {
+            String bts_type = obj.getString("bts_type");
+            if (bts_type.equals("GSM") || bts_type.equals("UMTS")) {
+              filteredArray.put(obj);
+            }
+          }
+        }
+      }
+
+      TextView cnttextview = findViewById(R.id.countTextView);
+      cnttextview.setText(String.valueOf(filteredArray.length()));
+
+//        Add the card Views for the selected Data
+      ScrollView scrollView = findViewById(R.id.scrollView);
+      ViewGroup container = (ViewGroup) scrollView.getChildAt(0); // Assuming ScrollView has one child
+      container.removeAllViews();
+
+      for(int i=0; i<filteredArray.length(); i++){
+        final JSONObject obj;
+        CardView.LayoutParams param = new CardView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT);
+        param.setMargins(10,10,10,10);
+        try {
+          obj = new JSONObject(filteredArray.getString(i));
+          GenerateCardString generateCardString = new GenerateCardString(CategoryWiseDetails.this);
+          String optr_id = obj.getString("operator_id");
+          String opr_name = Config.getOperatorNames(CategoryWiseDetails.this.operators, optr_id);
+          SpannableStringBuilder str = generateCardString.CardString(obj, opr_name);
+          LinearLayout ll = new LinearLayout(CategoryWiseDetails.this);
+          CardView card = new CardView(CategoryWiseDetails.this);
+          card.setMaxCardElevation(5);
+          card.setCardElevation(5);
+          card.setLayoutParams(param);
+          card.setPadding(10, 10, 10, 10);
+          card.setRadius(30);
+          card.setUseCompatPadding(true);
+          String site_category = obj.getString("site_category");
+          switch (site_category){
+            case "SUPER_CRITICAL":
+              card.setCardBackgroundColor(ContextCompat.getColor(CategoryWiseDetails.this.getApplicationContext(),R.color.super_critical));
+              break;
+            case "CRITICAL":
+              card.setCardBackgroundColor(ContextCompat.getColor(CategoryWiseDetails.this.getApplicationContext(),R.color.critical));
+              break;
+            case "IMPORTANT":
+              card.setCardBackgroundColor(ContextCompat.getColor(CategoryWiseDetails.this.getApplicationContext(),R.color.important));
+              break;
+            default:
+              card.setCardBackgroundColor(ContextCompat.getColor(CategoryWiseDetails.this.getApplicationContext(),R.color.normal));
+          }
+          TextView tv = new TextView(CategoryWiseDetails.this);
+          //                    tv.setBackgroundColor(Color.rgb(32, 9, 237));
+          tv.setTextColor(Color.BLACK);
+          tv.setGravity(Gravity.CENTER);
+          tv.setPadding(15, 15, 15, 15);
+          tv.setText(str);
+          tv.setTextAlignment(View.TEXT_ALIGNMENT_GRAVITY);
+          tv.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
+          tv.setTypeface(Typeface.MONOSPACE);
+
+          card.addView(tv);
+          card.setOnClickListener(v -> {
+            Intent intent = new Intent(CategoryWiseDetails.this, ReasonUpdate.class);
+            try {
+              intent.putExtra("bts_id", obj.getString("bts_id"));
+            } catch (JSONException e) {
+              e.printStackTrace();
+            }
+            CategoryWiseDetails.this.startActivity(intent);
+          });
+          ll.addView(card);
+          CategoryWiseDetails.this.tl.addView(ll);
+        } catch (JSONException e) {
+          e.printStackTrace();
+        }
+      }
+
+    } catch (Exception e) {
+      Log.e("JSON Exception Filtered array", e.toString());
+    }
+//    return true;;
+  }
+
 }

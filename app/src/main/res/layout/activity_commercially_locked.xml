@@ -58,17 +58,19 @@
     <TextView
         android:id="@+id/textView1"
         android:layout_width="0dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="20dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="5dp"
         android:text="Commercially Locked"
-        android:textAlignment="gravity"
-        android:gravity="left|center_vertical"
-        android:layout_marginLeft="?attr/actionBarSize"
-        android:textSize="@dimen/toolbar_text"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:layout_marginStart="?attr/actionBarSize"
+        android:textSize="18sp"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintWidth_percent="0.4"
+      app:layout_constraintHorizontal_bias="0.001" />
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/refresh"
         android:layout_height="match_parent"

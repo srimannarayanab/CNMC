@@ -8,11 +8,13 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -133,7 +135,8 @@ public class CommerciallyLocked extends SessionActivity {
       row.createCell(5).setCellValue("Nor");
       row.createCell(6).setCellValue("Nok");
       row.createCell(7).setCellValue("Zte");
-      row.createCell(8).setCellValue("Total");
+      row.createCell(8).setCellValue("Tejas");
+      row.createCell(9).setCellValue("Total");
 
       JSONObject url_obj = new JSONObject(flts);
       if(!url_obj.getString("result").equals("true")){
@@ -141,7 +144,7 @@ public class CommerciallyLocked extends SessionActivity {
         startActivity(new Intent(this, SesssionLogout.class));
       }
       JSONArray arr =new JSONArray(url_obj.getString("data"));
-      int eric=0, alc=0, moto=0, hua =0, nor=0, nok=0, zte=0, cnt=0;
+      int eric=0, alc=0, moto=0, hua =0, nor=0, nok=0, zte=0, cnt=0, tejas=0;
       for(int i=0; i<arr.length(); i++){
         HSSFRow drow = sheet.createRow(i+1);
         JSONObject obj = arr.getJSONObject(i);
@@ -153,7 +156,8 @@ public class CommerciallyLocked extends SessionActivity {
         drow.createCell(5).setCellValue(Integer.parseInt(obj.getString("nor_cnt")));
         drow.createCell(6).setCellValue(Integer.parseInt(obj.getString("nok_cnt")));
         drow.createCell(7).setCellValue(Integer.parseInt(obj.getString("zte_cnt")));
-        drow.createCell(8).setCellValue(Integer.parseInt(obj.getString("cnt")));
+        drow.createCell(8).setCellValue(Integer.parseInt(obj.getString("tejas_cnt")));
+        drow.createCell(9).setCellValue(Integer.parseInt(obj.getString("cnt")));
         eric += Integer.parseInt(obj.getString("eric_cnt"));
         alc += Integer.parseInt(obj.getString("alc_cnt"));
         moto += Integer.parseInt(obj.getString("moto_cnt"));
@@ -161,6 +165,7 @@ public class CommerciallyLocked extends SessionActivity {
         nor += Integer.parseInt(obj.getString("nor_cnt"));
         nok += Integer.parseInt(obj.getString("nok_cnt"));
         zte += Integer.parseInt(obj.getString("zte_cnt"));
+        tejas += Integer.parseInt(obj.getString("tejas_cnt"));
         cnt += Integer.parseInt(obj.getString("cnt"));
       }
 //            Writing the Total data
@@ -173,6 +178,7 @@ public class CommerciallyLocked extends SessionActivity {
       trow.createCell(5).setCellValue(nor);
       trow.createCell(6).setCellValue(nok);
       trow.createCell(7).setCellValue(zte);
+      trow.createCell(8).setCellValue(tejas);
       trow.createCell(8).setCellValue(cnt);
 
 
@@ -277,8 +283,11 @@ public class CommerciallyLocked extends SessionActivity {
       tv8.setText(R.string.header_zte);
       tr1.addView(tv8);
       TextView tv9 = new TextView(activity);
-      tv9.setText(R.string.header_total_short);
+      tv9.setText(R.string.header_tcs);
       tr1.addView(tv9);
+      TextView tv10 = new TextView(activity);
+      tv10.setText(R.string.header_total_short);
+      tr1.addView(tv10);
 
       activity.tl.addView(tr1);
 
@@ -299,6 +308,7 @@ public class CommerciallyLocked extends SessionActivity {
         int tot_nor =0;
         int tot_nok =0;
         int tot_zte =0;
+        int tot_tejas =0;
         int tot_tot =0;
         for(int i=0; i<obj.length(); i++){
           TableRow tr = new TableRow(activity);
@@ -312,6 +322,7 @@ public class CommerciallyLocked extends SessionActivity {
           String nor = c_obj.getString("nor_cnt");
           String nok = c_obj.getString("nok_cnt");
           String zte = c_obj.getString("zte_cnt");
+          String tejas = c_obj.getString("tejas_cnt");
           String tot = c_obj.getString("cnt");
           tot_eric +=Integer.parseInt(eric);
           tot_alca +=Integer.parseInt(alca);
@@ -320,6 +331,7 @@ public class CommerciallyLocked extends SessionActivity {
           tot_nor +=Integer.parseInt(nor);
           tot_nok +=Integer.parseInt(nok);
           tot_zte +=Integer.parseInt(zte);
+          tot_tejas +=Integer.parseInt(tejas);
           tot_tot +=Integer.parseInt(tot);
 
           btn.setText(circle);
@@ -406,6 +418,17 @@ public class CommerciallyLocked extends SessionActivity {
             activity.startActivity(intent1);
           });
           tr.addView(btn_zte);
+
+          Button btn_tcs = new Button(activity);
+          btn_tcs.setText(tejas);
+          btn_tcs.setOnClickListener(v -> {
+            Intent intent1 = new Intent(activity, LockedSitesDetails.class);
+            intent1.putExtra("circle_id", circle);
+            intent1.putExtra("ssa_id", "%");
+            intent1.putExtra("vendor_id","9");
+            activity.startActivity(intent1);
+          });
+          tr.addView(btn_tcs);
 
           Button btn_total = new Button(activity);
           btn_total.setText(tot);
@@ -500,6 +523,17 @@ public class CommerciallyLocked extends SessionActivity {
         });
         tr_f.addView(btn_f_8);
 
+        Button btn_f_9 = new Button(activity);
+        btn_f_9.setText(String.format(Locale.getDefault(), "%d", tot_tejas));
+        btn_f_8.setOnClickListener(v -> {
+          Intent intent1 = new Intent(activity, LockedSitesDetails.class);
+          intent1.putExtra("circle_id", "%");
+          intent1.putExtra("ssa_id", "%");
+          intent1.putExtra("vendor_id","9");
+          activity.startActivity(intent1);
+        });
+        tr_f.addView(btn_f_9);
+
         TextView tv_f_9 = new TextView(activity);
         tv_f_9.setText(String.format(Locale.getDefault(), "%d" ,tot_tot));
         tr_f.addView(tv_f_9);
@@ -509,15 +543,43 @@ public class CommerciallyLocked extends SessionActivity {
       } catch (JSONException e) {
         e.printStackTrace();
       }
-      //        View Properties
+      // View Properties
       for(int j =0; j<activity.tl.getChildCount(); j++){
         ViewGroup tabrows = (ViewGroup) activity.tl.getChildAt(j);
+        int maxHeight = 0;
+//        Calculate Row Height
+
+        for (int i = 0; i < tabrows.getChildCount(); i++) {
+          View v = tabrows.getChildAt(i);
+          ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
+          v.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+          int measuredWidth = v.getMeasuredWidth();
+          if (v instanceof TextView |v instanceof Button ) {
+            TextView textView = (TextView) v;
+            String text = textView.getText().toString();
+            Paint paint = textView.getPaint();
+            float textWidth = paint.measureText(text);
+            // Calculate number of lines and required height
+            int numLines = (int) Math.ceil(textWidth / measuredWidth);
+//            System.out.println("no of lines = "+ numLinLoes);
+            Log.d("No of Lines ", String.valueOf(numLines)+"-> Text "+text+" Widht "+textWidth+" Width "+measuredWidth);
+
+
+            int calculatedHeight = (int) (textView.getLineHeight() * numLines) + 20; // Adding padding
+
+            maxHeight = Math.max(maxHeight, calculatedHeight); // Update max height
+          } else {
+            maxHeight = Math.max(maxHeight, (j == activity.tl.getChildCount() - 1) ? 120 : 80);
+          }
+        }
+
         for(int i=0; i<tabrows.getChildCount(); i++){
           View v = tabrows.getChildAt(i);
           ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
           params.rightMargin = 1;
           params.bottomMargin = 1;
-          params.height = 80;
+          params.height = maxHeight;
+//          params.width = activity.getResources().getDisplayMetrics().widthPixels/10;
           params.width = 100;
           if(v instanceof TextView){
             if(j>18 && j<activity.tl.getChildCount()-1){
